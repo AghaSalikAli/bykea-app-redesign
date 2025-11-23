@@ -147,7 +147,7 @@ function ReviewTrip() {
 
   const handleConfirm = () => {
     // Navigate to vehicle selection (Phase 4)
-    navigate('/select-vehicle', { state: { pickup, dropoff, distance, duration } });
+    navigate('/select-vehicle', { state: { pickup, dropoff, stops, distance, duration } });
   };
 
   if (!pickup || !dropoff) {

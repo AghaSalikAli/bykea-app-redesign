@@ -1,0 +1,204 @@
+:root {
+  --primary-green: #00a859;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-title: #4a4a4a;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --border-color: #e0e0e0;
+  --border-green: #00a859;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --spacing-unit: 8px;
+  --font-size-base: 16px;
+}
+
+.vehicle-selection-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  overflow-y: auto;
+}
+
+/* Header */
+.vehicle-header {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5);
+  background-color: var(--bg-primary);
+  gap: calc(var(--spacing-unit) * 2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.vehicle-back-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--font-size-base) * 1.125);
+  gap: calc(var(--spacing-unit) * 1);
+}
+
+.vehicle-back-button svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.vehicle-header-title {
+  font-size: calc(var(--font-size-base) * 1.25);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  margin-right: calc(var(--spacing-unit) * 3);
+}
+
+/* Main Content */
+.vehicle-content {
+  flex: 1;
+  padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vehicle-main-title {
+  font-size: calc(var(--font-size-base) * 1.75);
+  font-weight: 600;
+  color: var(--text-title);
+  margin: 0 0 calc(var(--spacing-unit) * 5) 0;
+  text-align: center;
+}
+
+/* Vehicle Grid */
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: calc(var(--spacing-unit) * 2);
+  width: 100%;
+  max-width: 500px;
+}
+
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2);
+  background-color: var(--bg-primary);
+  border: 3px solid var(--border-green);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  gap: calc(var(--spacing-unit) * 2);
+}
+
+.vehicle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 168, 89, 0.2);
+}
+
+.vehicle-card.selected {
+  border-width: 4px;
+  background-color: rgba(0, 168, 89, 0.08);
+  box-shadow: 0 6px 20px rgba(0, 168, 89, 0.4);
+  transform: scale(1.02);
+}
+
+.vehicle-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  flex: 1;
+  position: relative;
+}
+
+.vehicle-icon-image {
+  max-width: 80px;
+  max-height: 80px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.vehicle-icon-placeholder {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background-color: var(--bg-secondary);
+  border-radius: 50%;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.vehicle-name {
+  font-size: calc(var(--font-size-base) * 1.125);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+  text-align: center;
+}
+
+/* Confirm Button */
+.vehicle-confirm-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 16px 20px 20px;
+  padding: 18px;
+  background-color: var(--primary-green);
+  border: none;
+  border-radius: 12px;
+  font-size: calc(var(--font-size-base) * 1.125);
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+  width: calc(100% - 40px);
+}
+
+.vehicle-confirm-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.vehicle-confirm-button:not(:disabled):hover {
+  background-color: #008f4d;
+  box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+}
+
+.vehicle-confirm-button:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .vehicle-grid {
+    gap: calc(var(--spacing-unit) * 1.5);
+  }
+
+  .vehicle-card {
+    padding: calc(var(--spacing-unit) * 2);
+  }
+
+  .vehicle-main-title {
+    font-size: calc(var(--font-size-base) * 1.5);
+  }
+}

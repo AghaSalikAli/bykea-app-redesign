@@ -10,6 +10,7 @@ import ReviewTrip from './pages/ReviewTrip';
 import EditYourRide from './pages/EditYourRide';
 import ReorderStops from './pages/ReorderStops';
 import AddStopModal from './components/AddStopModal';
+import VehicleSelection from './pages/VehicleSelection';
 import './App.css';
 
 function AppContent() {
@@ -37,6 +38,7 @@ function AppContent() {
           <Route path="/edit-your-ride" element={<EditYourRide />} />
           <Route path="/add-stop" element={<AddStopModal />} />
           <Route path="/reorder-stops" element={<ReorderStops />} />
+          <Route path="/select-vehicle" element={<VehicleSelection />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={
             <PlaceholderPage 

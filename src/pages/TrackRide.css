@@ -1,8 +1,21 @@
+:root {
+  --primary-green: #00a859;
+  --primary-red: #FF4444;
+  --primary-orange: #FF9800;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --border-color: #e0e0e0;
+  --spacing-unit: 8px;
+}
+
 .track-ride-container {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--bg-secondary);
 }
 
 .track-ride-map {
@@ -14,238 +27,8 @@
   z-index: 1;
 }
 
-/* Back Button */
-.track-ride-back-btn {
-  position: absolute;
-  top: calc(var(--spacing-unit) * 2);
-  left: calc(var(--spacing-unit) * 2);
-  background: white;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  padding: var(--spacing-unit);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s;
-  z-index: 1000;
-  width: 40px;
-  height: 40px;
-}
-
-.track-ride-back-btn:hover {
-  transform: scale(1.05);
-}
-
-.track-ride-back-btn svg {
-  display: block;
-}
-
-/* Bottom Sheet */
-.track-ride-sheet {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  border-radius: 20px 20px 0 0;
-  padding: calc(var(--spacing-unit) * 2);
-  padding-bottom: calc(60px + var(--spacing-unit) * 2);
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.sheet-handle {
-  width: 40px;
-  height: 4px;
-  background: #ddd;
-  border-radius: 2px;
-  margin: 0 auto calc(var(--spacing-unit) * 2);
-}
-
-/* ETA Section */
-.track-eta-section {
-  text-align: center;
-  padding: calc(var(--spacing-unit) * 2) 0;
-  border-bottom: 2px solid #f0f0f0;
-  margin-bottom: calc(var(--spacing-unit) * 2);
-}
-
-.track-eta-time {
-  font-size: 48px;
-  font-weight: 700;
-  color: var(--primary-green);
-  line-height: 1;
-  margin-bottom: var(--spacing-unit);
-}
-
-.track-eta-label {
-  font-size: 16px;
-  color: #666;
-}
-
-/* Driver Info */
-.track-driver-info {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--spacing-unit) * 1.5);
-  padding: calc(var(--spacing-unit) * 2);
-  background: #f9f9f9;
-  border-radius: 12px;
-  margin-bottom: calc(var(--spacing-unit) * 2);
-}
-
-.track-driver-avatar-container {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  flex-shrink: 0;
-}
-
-.track-driver-avatar {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--primary-green);
-}
-
-.track-driver-avatar-placeholder {
-  display: none;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-green) 0%, #008a4a 100%);
-  align-items: center;
-  justify-content: center;
-  border: 3px solid var(--primary-green);
-}
-
-.track-driver-avatar-placeholder span {
-  color: white;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.track-driver-details {
-  flex: 1;
-}
-
-.track-driver-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 4px;
-}
-
-.track-driver-vehicle {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 4px;
-}
-
-.track-driver-rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #666;
-  font-size: 14px;
-}
-
-.track-price {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--primary-green);
-}
-
-/* Locations */
-.track-locations {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing-unit) * 1.5);
-  margin-bottom: calc(var(--spacing-unit) * 2);
-}
-
-.track-location-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-unit);
-}
-
-.track-location-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.pickup-icon {
-  background-color: var(--primary-green);
-  border: 2px solid white;
-  box-shadow: 0 0 0 2px var(--primary-green);
-}
-
-.stop-icon {
-  background-color: var(--primary-orange);
-  border: 2px solid white;
-  box-shadow: 0 0 0 2px var(--primary-orange);
-}
-
-.dropoff-icon {
-  background-color: var(--primary-red);
-  border: 2px solid white;
-  box-shadow: 0 0 0 2px var(--primary-red);
-}
-
-.track-location-text {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.4;
-}
-
-/* Action Buttons */
-.track-actions {
-  display: flex;
-  gap: calc(var(--spacing-unit) * 2);
-  margin-top: calc(var(--spacing-unit) * 2);
-}
-
-.track-action-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-unit);
-  padding: calc(var(--spacing-unit) * 2);
-  background: white;
-  border: 2px solid var(--primary-green);
-  border-radius: 12px;
-  color: var(--primary-green);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
-}
-
-.track-action-btn:hover {
-  background-color: rgba(0, 168, 89, 0.05);
-  transform: translateY(-2px);
-}
-
-.track-action-btn:active {
-  transform: translateY(0);
-}
-
-.track-action-btn svg {
-  stroke: var(--primary-green);
-}
-
-/* Custom Marker Animations */
-.driver-marker {
+/* Driver marker animation */
+.driver-marker-icon {
   animation: pulse 2s infinite;
 }
 
@@ -258,37 +41,257 @@
   }
 }
 
+/* Bottom Sheet */
+.track-ride-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2) calc(60px + var(--spacing-unit) * 2);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto calc(var(--spacing-unit) * 2);
+}
+
+/* Status Message */
+.track-status-message {
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-align: left;
+  margin-bottom: calc(var(--spacing-unit) * 2.5);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Driver Card */
+.track-driver-card {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 1.5);
+  margin-bottom: calc(var(--spacing-unit) * 3);
+  padding-bottom: calc(var(--spacing-unit) * 2.5);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.track-driver-avatar-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.track-driver-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-green);
+}
+
+.track-driver-avatar-placeholder {
+  display: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-green) 0%, #008a4a 100%);
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--primary-green);
+}
+
+.track-driver-avatar-placeholder span {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.track-driver-info {
+  flex: 1;
+}
+
+.track-driver-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.track-driver-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.track-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Locations */
+.track-locations {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2);
+  margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+.track-location-item {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--spacing-unit) * 1.5);
+}
+
+.track-location-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.track-pickup-icon {
+  background-color: var(--primary-green);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--primary-green);
+}
+
+.track-stop-icon {
+  background-color: var(--primary-orange);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--primary-orange);
+}
+
+.track-dropoff-icon {
+  background-color: var(--primary-red);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--primary-red);
+}
+
+.track-location-details {
+  flex: 1;
+}
+
+.track-location-label {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.track-location-address {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Action Buttons */
+.track-actions {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 2);
+}
+
+.track-action-btn {
+  flex: 1;
+  padding: calc(var(--spacing-unit) * 1.75);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.track-call-btn {
+  background-color: white;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+}
+
+.track-call-btn:hover {
+  background-color: rgba(0, 168, 89, 0.05);
+}
+
+.track-message-btn {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+.track-message-btn:hover {
+  background-color: #008a4a;
+}
+
+.track-action-btn:active {
+  transform: scale(0.98);
+}
+
+/* Report Problem Button */
+.track-report-btn {
+  width: 100%;
+  padding: calc(var(--spacing-unit) * 2);
+  background-color: var(--primary-red);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.track-report-btn:hover {
+  background-color: #e03939;
+}
+
+.track-report-btn:active {
+  background-color: #cc3333;
+  transform: scale(0.98);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-  .track-eta-time {
-    font-size: 40px;
-  }
-
-  .track-eta-label {
-    font-size: 14px;
+  .track-status-message {
+    font-size: 15px;
   }
 
   .track-driver-name {
-    font-size: 16px;
-  }
-
-  .track-driver-vehicle {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .track-driver-rating {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .track-price {
     font-size: 18px;
   }
 
-  .track-location-text {
+  .track-location-label {
+    font-size: 11px;
+  }
+
+  .track-location-address {
     font-size: 13px;
   }
 
   .track-action-btn {
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .track-report-btn {
+    font-size: 15px;
   }
 }

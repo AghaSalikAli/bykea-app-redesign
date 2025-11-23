@@ -69,8 +69,13 @@ html[dir="rtl"] .sidebar.open {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
   flex-shrink: 0;
+  color: white;
+}
+
+.user-avatar svg {
+  width: 32px;
+  height: 32px;
 }
 
 .user-info h3 {
@@ -126,6 +131,11 @@ html[dir="rtl"] .close-button {
   cursor: pointer;
   border-radius: 0;
   font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: var(--bg-secondary);
 }
 
 html[dir="rtl"] .menu-item {
@@ -133,13 +143,18 @@ html[dir="rtl"] .menu-item {
 }
 
 .menu-icon {
-  font-size: calc(var(--font-size-base) * 1.5);
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: var(--primary-green);
+}
+
+.menu-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .menu-label {
@@ -148,12 +163,20 @@ html[dir="rtl"] .menu-item {
 }
 
 .menu-arrow {
-  font-size: calc(var(--font-size-base) * 1.5);
-  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
   flex-shrink: 0;
+  color: var(--text-secondary);
 }
 
-html[dir="rtl"] .menu-arrow {
+.menu-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+html[dir="rtl"] .menu-arrow svg {
   transform: scaleX(-1);
 }
 

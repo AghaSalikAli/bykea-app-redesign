@@ -1,0 +1,322 @@
+/* Location Modal Overlay */
+.location-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Location Modal */
+.location-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-primary);
+  border-radius: 20px 20px 0 0;
+  z-index: 2001;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Handle Bar */
+.modal-handle-bar {
+  width: 40px;
+  height: 4px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  margin: 12px auto 8px;
+}
+
+/* Close Button */
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  color: var(--text-primary);
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: calc(var(--font-size-base) * 1.25);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 16px 0;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* Map Container */
+.modal-map-container {
+  position: relative;
+  height: 250px;
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Center Pin */
+.center-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 1000;
+  pointer-events: none;
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translate(-50%, -100%);
+  }
+  50% {
+    transform: translate(-50%, -110%);
+  }
+}
+
+/* Current Address Display */
+.current-address-display {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.current-address-display svg {
+  flex-shrink: 0;
+  color: var(--primary-green);
+}
+
+.current-address-display p {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  color: var(--text-primary);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Location Input Fields */
+.location-inputs {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.location-input-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.location-input-field.active {
+  border-color: var(--primary-green);
+  background-color: rgba(0, 168, 89, 0.05);
+}
+
+.location-input-field svg {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.location-input-field.active svg {
+  color: var(--primary-green);
+}
+
+.location-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  outline: none;
+}
+
+.location-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Recent Places Section */
+.recent-places-section {
+  padding: 0 20px;
+  margin-bottom: 16px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.recent-places-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0 0 12px 0;
+}
+
+.recent-places-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recent-place-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.recent-place-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.place-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.place-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.place-name {
+  margin: 0 0 4px 0;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.place-address {
+  margin: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.place-distance {
+  font-size: calc(var(--font-size-base) * 0.875);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* Confirm Button */
+.confirm-location-btn {
+  margin: 16px 20px 20px;
+  padding: 16px;
+  background-color: var(--primary-green);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.confirm-location-btn:hover {
+  background-color: #008f4d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+}
+
+.confirm-location-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-height: 700px) {
+  .modal-map-container {
+    height: 200px;
+  }
+  
+  .recent-places-section {
+    max-height: 200px;
+  }
+}
+
+@media (max-height: 600px) {
+  .modal-map-container {
+    height: 150px;
+  }
+  
+  .recent-places-section {
+    max-height: 150px;
+  }
+  
+  .location-inputs {
+    margin-bottom: 12px;
+  }
+}

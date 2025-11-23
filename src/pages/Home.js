@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
+import React, { useState, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet';
+import SelectLocationModal from '../components/SelectLocationModal';
 import 'leaflet/dist/leaflet.css';
 import './Home.css';
 
@@ -18,13 +19,138 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
+// Component to handle map movement and update pickup location
+function HomeMapController({ onLocationChange }) {
+  const map = useMap();
+  const [isMoving, setIsMoving] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleMoveStart = () => setIsMoving(true);
+    const handleMoveEnd = () => {
+      setIsMoving(false);
+      const center = map.getCenter();
+      onLocationChange(center.lat, center.lng);
+    };
+
+    map.on('movestart', handleMoveStart);
+    map.on('moveend', handleMoveEnd);
+
+    return () => {
+      map.off('movestart', handleMoveStart);
+      map.off('moveend', handleMoveEnd);
+    };
+  }, [map, onLocationChange]);
+
+  return null;
+}
+
+// Component to handle map re-centering
+function RecenterButton({ position }) {
+  const map = useMap();
+  
+  const handleRecenter = () => {
+    // Get current zoom or use default
+    const currentZoom = map.getZoom();
+    
+    // Pan to the position and maintain the same zoom level as initial view
+    map.flyTo(position, currentZoom, {
+      duration: 0.5
+    });
+  };
+  
+  return (
+    <button 
+      className="center-location-btn" 
+      onClick={handleRecenter}
+      aria-label="Center on my location"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2"/>
+        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+        <path d="M12 2V4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M12 20V22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M2 12H4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M20 12H22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+      </svg>
+    </button>
+  );
+}
+
 const Home = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('ride');
   const [userLocation] = useState([24.8607, 67.0011]); // Karachi coordinates
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  
+  // Check if returning from review trip with existing locations
+  const existingPickup = location.state?.pickup;
+  const existingDropoff = location.state?.dropoff;
+  
+  const [pickupLocation, setPickupLocation] = useState(
+    existingPickup || {
+      coordinates: [24.8607, 67.0011],
+      address: 'Loading...',
+      name: 'Current Location'
+    }
+  );
+  const [dropoffLocation, setDropoffLocation] = useState(existingDropoff || null);
+  const [currentLocationType, setCurrentLocationType] = useState('pickup'); // 'pickup' or 'dropoff'
+
+  // Reverse geocoding function
+  const getAddressFromCoordinates = async (lat, lng) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      return data.display_name || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+    } catch (error) {
+      console.error('Error fetching address:', error);
+      return `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+    }
+  };
+
+  // Handle home map movement (for pickup location)
+  const handleHomeMapMove = async (lat, lng) => {
+    const address = await getAddressFromCoordinates(lat, lng);
+    setPickupLocation({
+      coordinates: [lat, lng],
+      address: address,
+      name: address.split(',')[0]
+    });
+  };
+
+  // Initialize pickup location on mount
+  React.useEffect(() => {
+    getAddressFromCoordinates(userLocation[0], userLocation[1]).then(address => {
+      setPickupLocation({
+        coordinates: userLocation,
+        address: address,
+        name: address.split(',')[0]
+      });
+    });
+  }, []);
 
   const handleSearchClick = () => {
-    navigate('/select-location');
+    setCurrentLocationType('dropoff');
+    setIsLocationModalOpen(true);
+  };
+
+  const handleLocationSelect = (location, fieldType) => {
+    if (fieldType === 'pickup') {
+      setPickupLocation(location);
+    } else {
+      setDropoffLocation(location);
+      // Navigate to review trip when dropoff is selected
+      navigate('/review-trip', {
+        state: {
+          pickup: pickupLocation,
+          dropoff: location
+        }
+      });
+    }
+    console.log(`Selected ${fieldType} location:`, location);
   };
 
   const handleTabChange = (tab) => {
@@ -46,7 +172,16 @@ const Home = () => {
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={userLocation} />
+          <Circle 
+            center={userLocation} 
+            radius={20} 
+            pathOptions={{ 
+              fillColor: '#4285F4', 
+              fillOpacity: 1,
+              color: '#ffffff',
+              weight: 3
+            }} 
+          />
           <Circle 
             center={userLocation} 
             radius={500} 
@@ -67,22 +202,52 @@ const Home = () => {
               weight: 1
             }} 
           />
+          <HomeMapController onLocationChange={handleHomeMapMove} />
+          <RecenterButton position={userLocation} />
         </MapContainer>
         
-        {/* Center Location Button */}
-        <button className="center-location-btn" aria-label="Center on my location">
-          <span>⊕</span>
-        </button>
+        {/* Center Pin for Pickup Selection */}
+        <div className="home-center-pin">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 0C9.85 0 1.6 8.25 1.6 18.4C1.6 32.2 20 48 20 48C20 48 38.4 32.2 38.4 18.4C38.4 8.25 30.15 0 20 0ZM20 25.2C16.25 25.2 13.2 22.15 13.2 18.4C13.2 14.65 16.25 11.6 20 11.6C23.75 11.6 26.8 14.65 26.8 18.4C26.8 22.15 23.75 25.2 20 25.2Z" fill="#00a859"/>
+          </svg>
+        </div>
       </div>
 
       {/* Bottom Panel */}
       <div className="bottom-panel">
-        {/* Search Input */}
+        {/* From Location Display */}
+        <div className="from-location-display">
+          <span className="location-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2"/>
+              <circle cx="12" cy="12" r="3" fill="currentColor"/>
+              <path d="M12 2V4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M12 20V22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M2 12H4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M20 12H22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
+          </span>
+          <input
+            type="text"
+            value={pickupLocation ? pickupLocation.name : 'Current Location'}
+            className="location-input"
+            readOnly
+          />
+        </div>
+
+        {/* To/Search Input */}
         <div className="search-container" onClick={handleSearchClick}>
-          <span className="search-icon">🔍</span>
+          <span className="search-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </span>
           <input
             type="text"
             placeholder={activeTab === 'ride' ? 'Where would you like to go?' : 'Where do you want to deliver?'}
+            value={dropoffLocation ? dropoffLocation.name : ''}
             className="search-input"
             readOnly
             aria-label={activeTab === 'ride' ? 'Where would you like to go?' : 'Where do you want to deliver?'}
@@ -91,6 +256,7 @@ const Home = () => {
 
         {/* Tab Buttons */}
         <div className="tab-buttons">
+          <div className={`tab-slider ${activeTab === 'courier' ? 'slider-right' : ''}`}></div>
           <button
             className={`tab-button ${activeTab === 'ride' ? 'active' : ''}`}
             onClick={() => handleTabChange('ride')}
@@ -107,6 +273,17 @@ const Home = () => {
           </button>
         </div>
       </div>
+
+      {/* Location Selection Modal */}
+      <SelectLocationModal
+        isOpen={isLocationModalOpen}
+        onClose={() => setIsLocationModalOpen(false)}
+        onSelectLocation={handleLocationSelect}
+        initialLocation={userLocation}
+        locationType={currentLocationType}
+        pickupLocation={pickupLocation}
+        dropoffLocation={dropoffLocation}
+      />
     </div>
   );
 };

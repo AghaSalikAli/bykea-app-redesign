@@ -218,11 +218,32 @@ html[dir="rtl"] .bottom-nav {
   min-height: 56px;
   cursor: pointer;
   border-radius: 8px;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.nav-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.nav-item.active {
+  color: var(--primary-green);
+}
+
+.nav-item.active .nav-label {
+  font-weight: 700;
 }
 
 .nav-icon {
-  font-size: calc(var(--font-size-base) * 1.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
+}
+
+.nav-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .nav-label {

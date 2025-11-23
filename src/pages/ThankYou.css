@@ -1,0 +1,210 @@
+.thank-you-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+  padding: calc(var(--spacing-unit) * 3);
+  padding-bottom: calc(60px + var(--spacing-unit) * 4);
+}
+
+.thank-you-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 3);
+  max-width: 500px;
+  width: 100%;
+}
+
+/* Success Icon */
+.success-icon {
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Thank You Text */
+.thank-you-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.thank-you-message {
+  font-size: 20px;
+  color: #666;
+  margin: calc(var(--spacing-unit) * -2) 0 0 0;
+  animation: fadeInUp 0.6s ease-out 0.3s backwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Booking Details */
+.booking-details {
+  background: white;
+  border: 2px solid var(--primary-green);
+  border-radius: 16px;
+  padding: calc(var(--spacing-unit) * 3);
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.6s ease-out 0.4s backwards;
+}
+
+.booking-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-unit) 0;
+}
+
+.booking-detail-row:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.booking-detail-label {
+  font-size: 15px;
+  color: #666;
+  font-weight: 500;
+}
+
+.booking-detail-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.booking-price {
+  color: var(--primary-green);
+  font-size: 18px;
+}
+
+/* Loading Animation */
+.loading-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 2);
+  animation: fadeInUp 0.6s ease-out 0.5s backwards;
+}
+
+.loading-dots {
+  display: flex;
+  gap: calc(var(--spacing-unit));
+}
+
+.loading-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--primary-green);
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+}
+
+/* Track Ride Button */
+.track-ride-btn {
+  position: fixed;
+  bottom: calc(60px + var(--spacing-unit) * 2);
+  left: calc(var(--spacing-unit) * 2);
+  right: calc(var(--spacing-unit) * 2);
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: calc(var(--spacing-unit) * 2);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+  z-index: 99;
+  animation: fadeInUp 0.6s ease-out 0.6s backwards;
+}
+
+.track-ride-btn:hover {
+  background-color: #008a4a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 168, 89, 0.4);
+}
+
+.track-ride-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .thank-you-title {
+    font-size: 36px;
+  }
+
+  .thank-you-message {
+    font-size: 18px;
+  }
+
+  .success-icon svg {
+    width: 100px;
+    height: 100px;
+  }
+
+  .booking-detail-label,
+  .booking-detail-value {
+    font-size: 14px;
+  }
+
+  .booking-price {
+    font-size: 16px;
+  }
+
+  .track-ride-btn {
+    font-size: 16px;
+  }
+}

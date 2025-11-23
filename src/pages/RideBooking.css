@@ -1,0 +1,251 @@
+:root {
+  --primary-green: #00a859;
+  --primary-red: #FF4444;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --border-color: #e0e0e0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --spacing-unit: 8px;
+  --font-size-base: 16px;
+}
+
+/* Searching for Rides Screen - Uses ReviewTrip classes for exact match */
+/* All styles are inherited from ReviewTrip.css via shared class names */
+
+/* Cancel Button - Red version for RideBooking (inherits most styles from confirm-button in ReviewTrip) */
+.cancel-button {
+  position: fixed;
+  bottom: calc(var(--spacing-unit) * 2);
+  left: calc(var(--spacing-unit) * 2.5);
+  right: calc(var(--spacing-unit) * 2.5);
+  padding: calc(var(--spacing-unit) * 2);
+  background-color: var(--primary-red);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: calc(var(--font-size-base) * 1.125);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+}
+
+.cancel-button:hover {
+  background-color: #e03939;
+}
+
+.cancel-button:active {
+  background-color: #cc3333;
+}
+
+/* Available Rides Screen */
+.available-rides-container {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 3);
+}
+
+.available-rides-header {
+  margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+.available-rides-title {
+  font-size: calc(var(--font-size-base) * 1.5);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 calc(var(--spacing-unit) * 1) 0;
+}
+
+.available-rides-count {
+  font-size: calc(var(--font-size-base) * 0.875);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.rides-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2);
+}
+
+.ride-card {
+  background-color: var(--bg-primary);
+  border: 3px solid var(--primary-green);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.ride-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.ride-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: calc(var(--spacing-unit) * 2.5);
+  gap: calc(var(--spacing-unit) * 2);
+}
+
+.driver-info-section {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 2);
+  flex: 1;
+}
+
+.driver-avatar-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.driver-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--primary-green);
+  object-fit: cover;
+}
+
+.driver-avatar-placeholder {
+  display: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  border: 3px solid var(--primary-green);
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.driver-details {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 0.5);
+}
+
+.driver-name {
+  font-size: calc(var(--font-size-base) * 1.125);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.driver-rating {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 0.5);
+  font-size: calc(var(--font-size-base) * 0.875);
+  color: var(--text-secondary);
+}
+
+.driver-vehicle {
+  font-size: calc(var(--font-size-base) * 0.875);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.driver-distance {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 0.5);
+  font-size: calc(var(--font-size-base) * 0.75);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.ride-price-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.ride-price {
+  font-size: calc(var(--font-size-base) * 1.5);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ride-actions {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 1.5);
+  padding: 0 calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 2.5);
+}
+
+.ride-cancel-btn,
+.ride-accept-btn {
+  flex: 1;
+  padding: calc(var(--spacing-unit) * 1.5);
+  border-radius: 8px;
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ride-cancel-btn {
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.ride-cancel-btn:hover {
+  background-color: var(--bg-secondary);
+}
+
+.ride-accept-btn {
+  background-color: var(--primary-green);
+  border: none;
+  color: white;
+}
+
+.ride-accept-btn:hover {
+  background-color: #008f4d;
+}
+
+.ride-cancel-btn:active,
+.ride-accept-btn:active {
+  transform: scale(0.98);
+}
+
+/* Timer bar */
+.ride-timer-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--border-color);
+  position: relative;
+}
+
+.ride-timer-fill {
+  height: 100%;
+  background-color: var(--primary-green);
+  transition: width 0.1s linear;
+}
+
+/* Custom map icons */
+.custom-pickup-icon,
+.custom-dropoff-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .ride-card-content {
+    flex-direction: column;
+  }
+
+  .ride-price-section {
+    align-items: flex-start;
+  }
+}

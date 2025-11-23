@@ -11,6 +11,10 @@ import EditYourRide from './pages/EditYourRide';
 import ReorderStops from './pages/ReorderStops';
 import AddStopModal from './components/AddStopModal';
 import VehicleSelection from './pages/VehicleSelection';
+import RideBooking from './pages/RideBooking';
+import ReviewDriver from './pages/ReviewDriver';
+import ThankYou from './pages/ThankYou';
+import TrackRide from './pages/TrackRide';
 import './App.css';
 
 function AppContent() {
@@ -39,6 +43,10 @@ function AppContent() {
           <Route path="/add-stop" element={<AddStopModal />} />
           <Route path="/reorder-stops" element={<ReorderStops />} />
           <Route path="/select-vehicle" element={<VehicleSelection />} />
+          <Route path="/ride-booking" element={<RideBooking />} />
+          <Route path="/review-driver" element={<ReviewDriver />} />
+          <Route path="/ride-confirmed" element={<ThankYou />} />
+          <Route path="/track-ride" element={<TrackRide />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={
             <PlaceholderPage 

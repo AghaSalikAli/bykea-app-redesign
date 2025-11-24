@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from '../contexts/LanguageContext';
 import './ReorderStops.css';
 
 function ReorderStops() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [], distance, duration } = location.state || {};
 
   const [allStops, setAllStops] = useState([
@@ -62,7 +64,7 @@ function ReorderStops() {
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
-        <h1 className="reorder-title">Reorder Stops</h1>
+        <h1 className="reorder-title">{t('reorderStops.title')}</h1>
       </div>
 
       {/* Instructions */}
@@ -71,7 +73,7 @@ function ReorderStops() {
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
           <path d="M12 16v-4M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        <p>Tap the swap icon between stops to reorder your route.</p>
+        <p>{t('reorderStops.instructions')}</p>
       </div>
 
       {/* Stops List */}
@@ -99,7 +101,7 @@ function ReorderStops() {
                 {/* Stop Details */}
                 <div className="stop-details">
                   <span className="stop-label">
-                    {isPickup ? 'Pickup' : isDropoff ? 'Dropoff' : `Stop ${index}`}
+                    {isPickup ? t('reorderStops.pickup') : isDropoff ? t('reorderStops.dropoff') : `${t('reorderStops.stop')} ${index}`}
                   </span>
                   <span className="stop-name">{stop.name}</span>
                 </div>
@@ -131,7 +133,7 @@ function ReorderStops() {
       {/* Footer */}
       <div className="reorder-footer">
         <button className="done-btn" onClick={handleConfirm}>
-          Done
+          {t('reorderStops.done')}
         </button>
       </div>
     </div>

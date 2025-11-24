@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from '../contexts/LanguageContext';
 import './VehicleSelection.css';
 
 const VehicleSelection = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [], distance, duration } = location.state || {};
   
   const [selectedVehicle, setSelectedVehicle] = useState(null);
@@ -13,28 +15,28 @@ const VehicleSelection = () => {
   const vehicles = [
     {
       id: 'bike',
-      name: 'Bike',
+      name: t('vehicle.bike'),
       imagePath: '/images/bike-icon.png', // Replace with your own image
       basePrice: 50,
       pricePerKm: 15
     },
     {
       id: 'car',
-      name: 'Car',
+      name: t('vehicle.car'),
       imagePath: '/images/car-icon.png', // Replace with your own image
       basePrice: 150,
       pricePerKm: 35
     },
     {
       id: 'car-ac',
-      name: 'Car (AC)',
+      name: t('vehicle.carAC'),
       imagePath: '/images/car-ac-icon.png', // Replace with your own image
       basePrice: 200,
       pricePerKm: 45
     },
     {
       id: 'rickshaw',
-      name: 'Rickshaw',
+      name: t('vehicle.rickshaw'),
       imagePath: '/images/rickshaw-icon.png', // Replace with your own image
       basePrice: 80,
       pricePerKm: 20
@@ -87,12 +89,12 @@ const VehicleSelection = () => {
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
-        <h1 className="vehicle-header-title">Select transport</h1>
+        <h1 className="vehicle-header-title">{t('vehicle.title')}</h1>
       </div>
 
       {/* Main Content */}
       <div className="vehicle-content">
-        <h2 className="vehicle-main-title">Choose Your Vehicle</h2>
+        <h2 className="vehicle-main-title">{t('vehicle.chooseVehicle')}</h2>
 
         {/* Vehicle Grid */}
         <div className="vehicle-grid">
@@ -129,7 +131,7 @@ const VehicleSelection = () => {
         onClick={handleConfirm}
         disabled={!selectedVehicle}
       >
-        Confirm
+        {t('vehicle.confirm')}
       </button>
     </div>
   );

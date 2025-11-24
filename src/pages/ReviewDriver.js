@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from '../contexts/LanguageContext';
 import './ReviewDriver.css';
 
 const ReviewDriver = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [], distance, duration, vehicle, estimatedPrice, driver } = location.state || {};
 
   // Mock reviews
@@ -56,7 +58,7 @@ const ReviewDriver = () => {
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
-        <h1 className="review-driver-title">Review Your Driver</h1>
+        <h1 className="review-driver-title">{t('reviewDriver.title')}</h1>
       </div>
 
       {/* Driver Info */}
@@ -66,7 +68,7 @@ const ReviewDriver = () => {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFB800">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
           </svg>
-          <span>{driver.rating} ({driver.totalRides} rides)</span>
+          <span>{driver.rating} ({driver.totalRides} {t('reviewDriver.rides')})</span>
         </div>
 
         <div className="driver-profile-avatar-container">
@@ -87,7 +89,7 @@ const ReviewDriver = () => {
 
       {/* Reviews Section */}
       <div className="reviews-section">
-        <h3 className="reviews-title">Reviews</h3>
+        <h3 className="reviews-title">{t('reviewDriver.reviews')}</h3>
         <div className="reviews-list">
           {reviews.map((review) => (
             <div key={review.id} className="review-card">
@@ -131,7 +133,7 @@ const ReviewDriver = () => {
 
       {/* Confirm Button */}
       <button className="confirm-ride-btn" onClick={handleConfirmRide}>
-        Confirm Ride
+        {t('reviewDriver.confirmRide')}
       </button>
     </div>
   );

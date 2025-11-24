@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
+import { useTranslation } from '../contexts/LanguageContext';
 import L from 'leaflet';
 import './ReviewTrip.css';
 
@@ -58,6 +59,7 @@ function MapBoundsController({ allCoordinates }) {
 function ReviewTrip() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [] } = location.state || {};
 
   const [routeCoords, setRouteCoords] = useState([]);
@@ -213,8 +215,8 @@ function ReviewTrip() {
 
       <div className="review-details-panel">
         <div className="review-header">
-          <h2 className="review-title">Review Your Trip</h2>
-          <button className="edit-button-icon" onClick={handleEdit} title="Edit Trip">
+          <h2 className="review-title">{t('reviewTrip.title')}</h2>
+          <button className="edit-button-icon" onClick={handleEdit} title={t('reviewTrip.title')}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -230,7 +232,7 @@ function ReviewTrip() {
             <div className="location-row">
               <div className="location-dot pickup-dot"></div>
               <div className="location-text">
-                <span className="location-label">Pickup</span>
+                <span className="location-label">{t('reviewTrip.pickup')}</span>
                 <span className="location-name">{pickup.name}</span>
               </div>
             </div>
@@ -243,7 +245,7 @@ function ReviewTrip() {
                 <div className="location-row">
                   <div className="location-dot stop-dot"></div>
                   <div className="location-text">
-                    <span className="location-label">Stop {index + 1}</span>
+                    <span className="location-label">{t('reviewTrip.stop')} {index + 1}</span>
                     <span className="location-name">{stop.name}</span>
                   </div>
                 </div>
@@ -254,7 +256,7 @@ function ReviewTrip() {
             <div className="location-row">
               <div className="location-dot dropoff-dot"></div>
               <div className="location-text">
-                <span className="location-label">Dropoff</span>
+                <span className="location-label">{t('reviewTrip.dropoff')}</span>
                 <span className="location-name">{dropoff.name}</span>
               </div>
             </div>
@@ -268,7 +270,7 @@ function ReviewTrip() {
                   <path d="M9 11l3 3 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span>{distance} km</span>
+                <span>{distance} {t('reviewTrip.distance')}</span>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
@@ -276,7 +278,7 @@ function ReviewTrip() {
                   <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
                   <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
-                <span>{duration} min</span>
+                <span>{duration} {t('reviewTrip.duration')}</span>
               </div>
             </div>
           )}
@@ -285,7 +287,7 @@ function ReviewTrip() {
 
         {/* Confirm button - Fixed at bottom */}
         <button className="confirm-button" onClick={handleConfirm}>
-          Confirm Location
+          {t('reviewTrip.confirmRide')}
         </button>
       </div>
     </div>

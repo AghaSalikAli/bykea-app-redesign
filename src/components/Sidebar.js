@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from '../contexts/LanguageContext';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const getIcon = (iconName) => {
     const icons = {
@@ -65,14 +67,14 @@ const Sidebar = ({ isOpen, onClose }) => {
   };
 
   const menuItems = [
-    { id: 'profile', label: 'Profile', icon: 'profile', route: '/profile' },
-    { id: 'settings', label: 'Settings', icon: 'settings', route: '/settings' },
-    { id: 'myRides', label: 'Requests History', icon: 'history', route: '/rides' },
-    { id: 'wallet', label: 'Wallet', icon: 'wallet', route: '/wallet' },
-    { id: 'paymentMethods', label: 'Payment Methods', icon: 'payment', route: '/payment' },
-    { id: 'notifications', label: 'Notifications', icon: 'notifications', route: '/notifications' },
-    { id: 'help', label: 'Help & Support', icon: 'help', route: '/help' },
-    { id: 'about', label: 'About', icon: 'about', route: '/about' },
+    { id: 'profile', labelKey: 'sidebar.profile', icon: 'profile', route: '/profile' },
+    { id: 'settings', labelKey: 'sidebar.settings', icon: 'settings', route: '/settings' },
+    { id: 'myRides', labelKey: 'sidebar.requestsHistory', icon: 'history', route: '/rides' },
+    { id: 'wallet', labelKey: 'sidebar.wallet', icon: 'wallet', route: '/wallet' },
+    { id: 'paymentMethods', labelKey: 'sidebar.paymentMethods', icon: 'payment', route: '/payment' },
+    { id: 'notifications', labelKey: 'sidebar.notifications', icon: 'notifications', route: '/notifications' },
+    { id: 'help', labelKey: 'sidebar.helpSupport', icon: 'help', route: '/help' },
+    { id: 'about', labelKey: 'sidebar.about', icon: 'about', route: '/about' },
   ];
 
   const handleItemClick = (route) => {
@@ -97,8 +99,8 @@ const Sidebar = ({ isOpen, onClose }) => {
               </svg>
             </div>
             <div className="user-info">
-              <h3>Welcome to Bykea</h3>
-              <p>user@example.com</p>
+              <h3>{t('sidebar.welcome')}</h3>
+              <p>s.khoja@iba.edu.pk</p>
             </div>
           </div>
         </div>
@@ -109,12 +111,12 @@ const Sidebar = ({ isOpen, onClose }) => {
               key={item.id}
               className="menu-item"
               onClick={() => handleItemClick(item.route)}
-              aria-label={item.label}
+              aria-label={t(item.labelKey)}
             >
               <span className="menu-icon" aria-hidden="true">
                 {getIcon(item.icon)}
               </span>
-              <span className="menu-label">{item.label}</span>
+              <span className="menu-label">{t(item.labelKey)}</span>
               <span className="menu-arrow" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

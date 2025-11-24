@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet';
 import SelectLocationModal from '../components/SelectLocationModal';
 import Sidebar from '../components/Sidebar';
+import { useLanguage, useTranslation } from '../contexts/LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import './Home.css';
 
@@ -92,6 +93,8 @@ function RecenterButton({ position }) {
 const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { language, toggleLanguage } = useLanguage();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('ride');
   const [userLocation] = useState([24.9419, 67.1143]); // IBA Main Campus coordinates
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -105,7 +108,7 @@ const Home = () => {
     existingPickup || {
       coordinates: [24.9419, 67.1143],
       address: 'Loading...',
-      name: 'Current Location'
+      name: t('home.currentLocation')
     }
   );
   const [dropoffLocation, setDropoffLocation] = useState(existingDropoff || null);
@@ -196,6 +199,17 @@ const Home = () => {
             <span></span>
           </div>
         </button>
+
+        {/* Language Toggle Button */}
+        <button 
+          className="language-toggle-button" 
+          onClick={toggleLanguage}
+          aria-label="Toggle language"
+        >
+          <span className={`lang-option ${language === 'en' ? 'active' : ''}`}>EN</span>
+          <span className="toggle-divider"></span>
+          <span className={`lang-option ${language === 'ur' ? 'active' : ''}`}>اردو</span>
+        </button>
         
         <MapContainer 
           center={userLocation} 
@@ -259,7 +273,7 @@ const Home = () => {
           </span>
           <input
             type="text"
-            value={pickupLocation ? pickupLocation.name : 'Current Location'}
+            value={pickupLocation ? pickupLocation.name : t('home.currentLocation')}
             className="location-input"
             readOnly
           />
@@ -275,11 +289,11 @@ const Home = () => {
           </span>
           <input
             type="text"
-            placeholder={activeTab === 'ride' ? 'Where would you like to go?' : 'Where do you want to deliver?'}
+            placeholder={activeTab === 'ride' ? t('home.whereGo') : t('home.whereDeliver')}
             value={dropoffLocation ? dropoffLocation.name : ''}
             className="search-input"
             readOnly
-            aria-label={activeTab === 'ride' ? 'Where would you like to go?' : 'Where do you want to deliver?'}
+            aria-label={activeTab === 'ride' ? t('home.whereGo') : t('home.whereDeliver')}
           />
         </div>
 
@@ -291,14 +305,14 @@ const Home = () => {
             onClick={() => handleTabChange('ride')}
             aria-pressed={activeTab === 'ride'}
           >
-            Ride
+            {t('home.ride')}
           </button>
           <button
             className={`tab-button ${activeTab === 'courier' ? 'active' : ''}`}
             onClick={() => handleTabChange('courier')}
             aria-pressed={activeTab === 'courier'}
           >
-            Courier
+            {t('home.courier')}
           </button>
         </div>
       </div>

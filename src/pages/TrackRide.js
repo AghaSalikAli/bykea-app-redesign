@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import { useTranslation } from '../contexts/LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import './TrackRide.css';
 
 const TrackRide = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [], distance, duration, vehicle, estimatedPrice, driver } = location.state || {};
 
   const [route, setRoute] = useState([]);
@@ -248,7 +250,7 @@ const TrackRide = () => {
 
         {/* Status Message */}
         <div className="track-status-message">
-          {!rideStarted ? 'Your driver is coming in 3:35' : 'Your ride is in progress. Enjoy your trip!'}
+          {!rideStarted ? t('trackRide.driverComing') : t('trackRide.rideInProgress')}
         </div>
 
         {/* Driver Info */}
@@ -274,7 +276,7 @@ const TrackRide = () => {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFB800">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
-              <span>{driver.rating} ({driver.totalRides} reviews)</span>
+              <span>{driver.rating} ({driver.totalRides} {t('trackRide.reviews')})</span>
             </div>
           </div>
 
@@ -286,7 +288,7 @@ const TrackRide = () => {
           <div className="track-location-item">
             <div className="track-location-icon track-pickup-icon"></div>
             <div className="track-location-details">
-              <div className="track-location-label">Current location</div>
+              <div className="track-location-label">{t('trackRide.currentLocation')}</div>
               <div className="track-location-address">{pickup.address || pickup.name}</div>
             </div>
           </div>
@@ -295,7 +297,7 @@ const TrackRide = () => {
             <div key={index} className="track-location-item">
               <div className="track-location-icon track-stop-icon"></div>
               <div className="track-location-details">
-                <div className="track-location-label">Stop {index + 1}</div>
+                <div className="track-location-label">{t('trackRide.stop')} {index + 1}</div>
                 <div className="track-location-address">{stop.address || stop.name}</div>
               </div>
             </div>
@@ -314,15 +316,15 @@ const TrackRide = () => {
         {!rideStarted ? (
           <div className="track-actions">
             <button className="track-action-btn track-call-btn" onClick={handleCall}>
-              Call
+              {t('trackRide.call')}
             </button>
             <button className="track-action-btn track-message-btn" onClick={handleMessage}>
-              Message
+              {t('trackRide.message')}
             </button>
           </div>
         ) : (
           <button className="track-report-btn" onClick={handleReportProblem}>
-            Report a Problem
+            {t('trackRide.reportProblem')}
           </button>
         )}
       </div>

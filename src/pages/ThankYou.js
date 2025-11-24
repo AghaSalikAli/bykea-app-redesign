@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from '../contexts/LanguageContext';
 import './ThankYou.css';
 
 const ThankYou = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [], distance, duration, vehicle, estimatedPrice, driver } = location.state || {};
 
   useEffect(() => {
@@ -47,21 +49,21 @@ const ThankYou = () => {
         </div>
 
         {/* Thank You Text */}
-        <h1 className="thank-you-title">Thank you</h1>
-        <p className="thank-you-message">Your ride has been booked!</p>
+        <h1 className="thank-you-title">{t('thankYou.title')}</h1>
+        <p className="thank-you-message">{t('thankYou.message')}</p>
 
         {/* Ride Details */}
         <div className="booking-details">
           <div className="booking-detail-row">
-            <span className="booking-detail-label">Driver:</span>
+            <span className="booking-detail-label">{t('thankYou.driver')}:</span>
             <span className="booking-detail-value">{driver.name}</span>
           </div>
           <div className="booking-detail-row">
-            <span className="booking-detail-label">Vehicle:</span>
+            <span className="booking-detail-label">{t('thankYou.vehicle')}:</span>
             <span className="booking-detail-value">{driver.vehicle}</span>
           </div>
           <div className="booking-detail-row">
-            <span className="booking-detail-label">Estimated Price:</span>
+            <span className="booking-detail-label">{t('thankYou.estimatedPrice')}:</span>
             <span className="booking-detail-value booking-price">Rs. {estimatedPrice}</span>
           </div>
         </div>
@@ -73,13 +75,13 @@ const ThankYou = () => {
             <span></span>
             <span></span>
           </div>
-          <p className="loading-text">Preparing your ride...</p>
+          <p className="loading-text">{t('thankYou.preparingRide')}</p>
         </div>
       </div>
 
       {/* Track Ride Button */}
       <button className="track-ride-btn" onClick={handleTrackRide}>
-        Track Ride
+        {t('thankYou.trackRide')}
       </button>
     </div>
   );

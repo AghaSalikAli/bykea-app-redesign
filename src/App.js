@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AccessibilityProvider } from './contexts/AccessibilityContext';
+import { LanguageProvider, useTranslation } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
@@ -15,12 +16,23 @@ import RideBooking from './pages/RideBooking';
 import ReviewDriver from './pages/ReviewDriver';
 import ThankYou from './pages/ThankYou';
 import TrackRide from './pages/TrackRide';
+import Offers from './pages/Offers';
+import Wallet from './pages/Wallet';
+import Shops from './pages/Shops';
+import Profile from './pages/Profile';
+import RidesHistory from './pages/RidesHistory';
+import Packages from './pages/Packages';
+import PaymentMethods from './pages/PaymentMethods';
+import Notifications from './pages/Notifications';
+import HelpSupport from './pages/HelpSupport';
+import About from './pages/About';
 import './App.css';
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -47,87 +59,41 @@ function AppContent() {
           <Route path="/ride-confirmed" element={<ThankYou />} />
           <Route path="/track-ride" element={<TrackRide />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/profile" element={
-            <PlaceholderPage 
-              title="Profile" 
-              description="View and edit your profile information"
-              icon="👤"
-            />
-          } />
-          <Route path="/rides" element={
-            <PlaceholderPage 
-              title="My Rides" 
-              description="View your ride history and upcoming bookings"
-              icon="🚗"
-            />
-          } />
-          <Route path="/packages" element={
-            <PlaceholderPage 
-              title="My Packages" 
-              description="Track your package deliveries"
-              icon="📦"
-            />
-          } />
-          <Route path="/wallet" element={
-            <PlaceholderPage 
-              title="Wallet" 
-              description="Manage your balance and transactions"
-              icon="💰"
-            />
-          } />
-          <Route path="/payment" element={
-            <PlaceholderPage 
-              title="Payment Methods" 
-              description="Manage your payment options"
-              icon="💳"
-            />
-          } />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/rides" element={<RidesHistory />} />
+          <Route path="/packages" element={<Packages />} />
+          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/shops" element={<Shops />} />
+          <Route path="/payment" element={<PaymentMethods />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/help" element={<HelpSupport />} />
+          <Route path="/about" element={<About />} />
           <Route path="/history" element={
             <PlaceholderPage 
-              title="Ride History" 
-              description="View all your past rides"
+              title={t('placeholder.history')} 
+              description={t('placeholder.historyDesc')}
               icon="📜"
-            />
-          } />
-          <Route path="/notifications" element={
-            <PlaceholderPage 
-              title="Notifications" 
-              description="View all your notifications"
-              icon="🔔"
-            />
-          } />
-          <Route path="/help" element={
-            <PlaceholderPage 
-              title="Help & Support" 
-              description="Get help with your Bykea experience"
-              icon="❓"
-            />
-          } />
-          <Route path="/about" element={
-            <PlaceholderPage 
-              title="About Bykea" 
-              description="Learn more about Bykea"
-              icon="ℹ️"
             />
           } />
           <Route path="/book-ride" element={
             <PlaceholderPage 
-              title="Book Ride" 
-              description="Select your pickup and drop location"
+              title={t('placeholder.bookRide')} 
+              description={t('placeholder.bookRideDesc')}
               icon="🚗"
             />
           } />
           <Route path="/send-package" element={
             <PlaceholderPage 
-              title="Send Package" 
-              description="Enter package details and delivery address"
+              title={t('placeholder.sendPackage')} 
+              description={t('placeholder.sendPackageDesc')}
               icon="📦"
             />
           } />
           <Route path="/select-location" element={
             <PlaceholderPage 
-              title="Select Location" 
-              description="Choose your location on the map"
+              title={t('placeholder.selectLocation')} 
+              description={t('placeholder.selectLocationDesc')}
               icon="📍"
             />
           } />
@@ -148,12 +114,12 @@ function AppContent() {
               <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </span>
-          <span className="nav-label">Home</span>
+          <span className="nav-label">{t('common.home')}</span>
         </button>
         <button 
           className={`nav-item ${isActive('/offers') ? 'active' : ''}`}
           onClick={() => navigate('/offers')}
-          aria-label="Offers"
+          aria-label={t('common.offers')}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,12 +127,12 @@ function AppContent() {
               <path d="M7 7H7.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </span>
-          <span className="nav-label">Offers</span>
+          <span className="nav-label">{t('common.offers')}</span>
         </button>
         <button 
           className={`nav-item ${isActive('/wallet') ? 'active' : ''}`}
           onClick={() => navigate('/wallet')}
-          aria-label="Wallet"
+          aria-label={t('sidebar.wallet')}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -174,12 +140,12 @@ function AppContent() {
               <path d="M1 10H23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </span>
-          <span className="nav-label">Wallet</span>
+          <span className="nav-label">{t('sidebar.wallet')}</span>
         </button>
         <button 
           className={`nav-item ${isActive('/shops') ? 'active' : ''}`}
           onClick={() => navigate('/shops')}
-          aria-label="Shops"
+          aria-label={t('common.shops')}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -188,7 +154,7 @@ function AppContent() {
               <path d="M16 10C16 11.0609 15.5786 12.0783 14.8284 12.8284C14.0783 13.5786 13.0609 14 12 14C10.9391 14 9.92172 13.5786 9.17157 12.8284C8.42143 12.0783 8 11.0609 8 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </span>
-          <span className="nav-label">Shops</span>
+          <span className="nav-label">{t('common.shops')}</span>
         </button>
       </nav>
       )}
@@ -198,11 +164,13 @@ function AppContent() {
 
 function App() {
   return (
-    <AccessibilityProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </AccessibilityProvider>
+    <LanguageProvider>
+      <AccessibilityProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </AccessibilityProvider>
+    </LanguageProvider>
   );
 }
 

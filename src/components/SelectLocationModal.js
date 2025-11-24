@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { useTranslation } from '../contexts/LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import './SelectLocationModal.css';
 
@@ -37,6 +38,7 @@ const SelectLocationModal = ({
   pickupLocation,
   dropoffLocation 
 }) => {
+  const { t } = useTranslation();
   const [activeField, setActiveField] = useState(locationType); // 'pickup' or 'dropoff'
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentPickup, setCurrentPickup] = useState(pickupLocation);
@@ -191,7 +193,7 @@ const SelectLocationModal = ({
         </button>
 
         {/* Header */}
-        <h2 className="modal-title">Select address</h2>
+        <h2 className="modal-title">{t('location.selectAddress')}</h2>
 
         {/* Map Section */}
         <div className="modal-map-container">
@@ -237,7 +239,7 @@ const SelectLocationModal = ({
             </svg>
             <input
               type="text"
-              placeholder="Current Location"
+              placeholder={t('home.currentLocation')}
               value={currentPickup ? currentPickup.name || currentPickup.address : ''}
               readOnly
               className="location-input"
@@ -261,7 +263,7 @@ const SelectLocationModal = ({
             </svg>
             <input
               type="text"
-              placeholder="To"
+              placeholder={t('location.to')}
               value={currentDropoff ? currentDropoff.name || currentDropoff.address : ''}
               readOnly
               className="location-input"
@@ -271,7 +273,7 @@ const SelectLocationModal = ({
 
         {/* Recent Places */}
         <div className="recent-places-section">
-          <h3 className="recent-places-title">Recent places</h3>
+          <h3 className="recent-places-title">{t('location.recentPlaces')}</h3>
           <div className="recent-places-list">
             {recentPlaces.map((place) => (
               <button
@@ -303,14 +305,14 @@ const SelectLocationModal = ({
               <path d="M12 8V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               <path d="M12 16H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
-            <span>Please select a drop-off location</span>
+            <span>{t('location.selectDropoff')}</span>
           </div>
         )}
 
         {/* Confirm Button Container */}
         <div className="confirm-button-container">
           <button className="confirm-location-btn" onClick={handleConfirm}>
-            Confirm Location
+            {t('location.confirmLocation')}
           </button>
         </div>
       </div>

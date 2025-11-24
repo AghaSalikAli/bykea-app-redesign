@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
+import { useTranslation } from '../contexts/LanguageContext';
 import './RideBooking.css';
 
 // Custom icons
@@ -31,6 +32,7 @@ const dropoffIcon = new L.DivIcon({
 const RideBooking = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { pickup, dropoff, stops = [], distance, duration, vehicle, estimatedPrice } = location.state || {};
 
   const [searchingForRides, setSearchingForRides] = useState(true);
@@ -251,7 +253,7 @@ const RideBooking = () => {
         {/* Details Panel */}
         <div className="review-details-panel">
           <div className="review-header">
-            <h2 className="review-title">Looking for Rides...</h2>
+            <h2 className="review-title">{t('rideBooking.lookingForRides')}</h2>
           </div>
 
           {/* Scrollable Content */}
@@ -316,7 +318,7 @@ const RideBooking = () => {
 
           {/* Cancel button - Fixed at bottom */}
           <button className="cancel-button" onClick={handleCancel}>
-            Cancel
+            {t('rideBooking.cancel')}
           </button>
         </div>
       </div>
@@ -331,8 +333,8 @@ const RideBooking = () => {
   return (
     <div className="available-rides-container">
       <div className="available-rides-header">
-        <h1 className="available-rides-title">Available rides</h1>
-        <p className="available-rides-count">{availableRides.length} rides found</p>
+        <h1 className="available-rides-title">{t('rideBooking.availableRides')}</h1>
+        <p className="available-rides-count">{availableRides.length} {t('rideBooking.ridesFound')}</p>
       </div>
 
       <div className="rides-list">
@@ -361,7 +363,7 @@ const RideBooking = () => {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFB800">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
-                    <span>{ride.rating} ({ride.totalRides} rides)</span>
+                    <span>{ride.rating} ({ride.totalRides} {t('rideBooking.rides')})</span>
                   </div>
                   <p className="driver-vehicle">{ride.vehicle}</p>
                   <p className="driver-distance">
@@ -380,10 +382,10 @@ const RideBooking = () => {
 
             <div className="ride-actions">
               <button className="ride-cancel-btn" onClick={() => handleCancelRide(ride.id)}>
-                Cancel
+                {t('rideBooking.cancel')}
               </button>
               <button className="ride-accept-btn" onClick={() => handleAcceptRide(ride)}>
-                Accept
+                {t('rideBooking.accept')}
               </button>
             </div>
 

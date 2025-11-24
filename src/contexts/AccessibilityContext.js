@@ -19,10 +19,7 @@ export const AccessibilityProvider = ({ children }) => {
     return localStorage.getItem('bykea-colorblind-mode') || 'normal';
   });
 
-  useEffect(() => {
-    document.documentElement.setAttribute('lang', 'en');
-    document.documentElement.setAttribute('dir', 'ltr');
-  }, []);
+  // Remove this useEffect as language context will handle lang and dir attributes
 
   useEffect(() => {
     localStorage.setItem('bykea-font-size', fontSize);

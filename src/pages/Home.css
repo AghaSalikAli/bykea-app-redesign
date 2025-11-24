@@ -39,7 +39,7 @@
   justify-content: center;
   padding: 0;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .home-hamburger-button:hover {
@@ -69,9 +69,80 @@
   transition: all 0.3s ease;
 }
 
-html[dir="rtl"] .home-hamburger-button {
-  left: auto;
+/* Keep hamburger on LEFT regardless of RTL/LTR */
+
+/* Language Toggle Button */
+.language-toggle-button {
+  position: absolute;
+  top: 16px;
   right: 16px;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-primary);
+  border: 2px solid var(--primary-green);
+  border-radius: 25px;
+  padding: 4px;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  gap: 0;
+  height: 40px;
+  min-width: 120px;
+}
+
+.language-toggle-button:hover {
+  box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+  transform: scale(1.02);
+}
+
+.language-toggle-button:active {
+  transform: scale(0.98);
+}
+
+.lang-option {
+  flex: 1;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-green);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.lang-option.active {
+  background-color: var(--primary-green);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 168, 89, 0.3);
+}
+
+.toggle-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--border-color);
+  margin: 0 2px;
+  transition: opacity 0.2s ease;
+}
+
+/* Keep language toggle on RIGHT regardless of RTL/LTR */
+
+/* Force LTR direction for all interactive UI components to keep them static */
+.home-hamburger-button,
+.language-toggle-button,
+.center-location-btn,
+.tab-buttons,
+.bottom-panel {
+  direction: ltr !important;
+}
+
+/* Keep tab buttons in same order regardless of document direction */
+.tab-buttons * {
+  direction: ltr !important;
 }
 
 /* Current Location Marker */
@@ -139,10 +210,7 @@ html[dir="rtl"] .home-hamburger-button {
   height: calc(var(--spacing-unit) * 3);
 }
 
-html[dir="rtl"] .center-location-btn {
-  right: auto;
-  left: 16px;
-}
+/* Keep center button on RIGHT regardless of RTL/LTR for consistency */
 
 /* Home Center Pin for Pickup Selection */
 .home-center-pin {

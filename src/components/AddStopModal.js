@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { useTranslation } from '../contexts/LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import './AddStopModal.css';
 
@@ -30,6 +31,7 @@ function MapController({ onLocationChange, initialCenter }) {
 }
 
 function AddStopModal({ isOpen, onClose, onStopAdded }) {
+  const { t } = useTranslation();
 
   const [mapCenter, setMapCenter] = useState([24.8607, 67.0011]); // Karachi
   const [currentStop, setCurrentStop] = useState({
@@ -152,7 +154,7 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
         </button>
 
         {/* Header */}
-        <h2 className="add-stop-modal-title">Add a Stop</h2>
+        <h2 className="add-stop-modal-title">{t('addStop.title')}</h2>
 
         {/* Map Section */}
         <div className="add-stop-map-container">
@@ -184,7 +186,7 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
             </svg>
             <input
               type="text"
-              placeholder="Stop Location"
+              placeholder={t('addStop.stopLocation')}
               value={currentStop.name || currentStop.address}
               readOnly
               className="add-stop-location-input"
@@ -194,7 +196,7 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
 
         {/* Recent Places */}
         <div className="add-stop-recent-places-section">
-          <h3 className="add-stop-recent-places-title">Recent places</h3>
+          <h3 className="add-stop-recent-places-title">{t('location.recentPlaces')}</h3>
           <div className="add-stop-recent-places-list">
             {recentPlaces.map((place) => (
               <button
@@ -220,7 +222,7 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
 
         {/* Add Stop Button */}
         <button className="add-stop-confirm-button" onClick={handleAddStop}>
-          Add Stop
+          {t('editRide.addStop')}
         </button>
       </div>
     </>

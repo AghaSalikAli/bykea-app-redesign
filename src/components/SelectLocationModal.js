@@ -42,14 +42,15 @@ const SelectLocationModal = ({
   const [currentPickup, setCurrentPickup] = useState(pickupLocation);
   const [currentDropoff, setCurrentDropoff] = useState(dropoffLocation);
   const [mapCenter, setMapCenter] = useState(initialLocation || [24.8607, 67.0011]);
+  const [showError, setShowError] = useState(false);
 
   const recentPlaces = [
     {
       id: 1,
-      name: 'IBA Main Campus',
-      address: 'Main Campus, University Road, Gulshan-e-Iqbal, Karachi',
-      distance: '2.7km',
-      coordinates: [24.9456, 67.1133]
+      name: 'IBA City Campus',
+      address: 'Plot # 68 & 88 Garden, Kiyani Shaheed Rd, Karachi',
+      distance: '22.7km',
+      coordinates: [24.8671, 67.0257]
     },
     {
       id: 2,
@@ -131,11 +132,21 @@ const SelectLocationModal = ({
 
   // Handle confirm button
   const handleConfirm = () => {
-    if (activeField === 'pickup' && currentPickup) {
+    // Check if dropoff is selected
+    if (!currentDropoff) {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000); // Hide error after 3 seconds
+      return;
+    }
+    
+    // Always update both locations together to ensure state consistency
+    if (currentPickup) {
       onSelectLocation(currentPickup, 'pickup');
-    } else if (activeField === 'dropoff' && currentDropoff) {
+    }
+    if (currentDropoff) {
       onSelectLocation(currentDropoff, 'dropoff');
     }
+    
     onClose();
   };
 
@@ -284,10 +295,24 @@ const SelectLocationModal = ({
           </div>
         </div>
 
-        {/* Confirm Button */}
-        <button className="confirm-location-btn" onClick={handleConfirm}>
-          Confirm Location
-        </button>
+        {/* Error Message */}
+        {showError && (
+          <div className="location-error-message">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+              <path d="M12 8V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M12 16H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            <span>Please select a drop-off location</span>
+          </div>
+        )}
+
+        {/* Confirm Button Container */}
+        <div className="confirm-button-container">
+          <button className="confirm-location-btn" onClick={handleConfirm}>
+            Confirm Location
+          </button>
+        </div>
       </div>
     </>
   );

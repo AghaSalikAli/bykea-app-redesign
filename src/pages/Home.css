@@ -1,29 +1,32 @@
 .home-page {
   height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
 }
 
 /* Map Container */
 .map-container {
-  flex: 1;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.map-container .leaflet-container {
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-}
-
-.center-location-btn {
   position: absolute;
-  bottom: 340px;
-  right: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hamburger Menu Button */
+.home-hamburger-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
   width: 48px;
   height: 48px;
   background-color: var(--bg-primary);
@@ -35,8 +38,88 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  min-width: 48px;
-  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-hamburger-button:hover {
+  background-color: var(--bg-secondary);
+  transform: scale(1.05);
+}
+
+.home-hamburger-button:active {
+  transform: scale(0.95);
+}
+
+.home-hamburger-button .hamburger-icon {
+  width: 20px;
+  height: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.home-hamburger-button .hamburger-icon span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background-color: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+html[dir="rtl"] .home-hamburger-button {
+  left: auto;
+  right: 16px;
+}
+
+/* Current Location Marker */
+.current-location-marker {
+  background: transparent;
+  border: none;
+}
+
+.location-marker-outer {
+  width: 24px;
+  height: 24px;
+  background-color: rgba(66, 133, 244, 0.2);
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.location-marker-inner {
+  width: 12px;
+  height: 12px;
+  background-color: #4285F4;
+  border-radius: 50%;
+}
+
+.map-container .leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.center-location-btn {
+  position: absolute;
+  bottom: calc(80px + calc(var(--spacing-unit) * 24));
+  right: 16px;
+  width: calc(var(--spacing-unit) * 6);
+  height: calc(var(--spacing-unit) * 6);
+  background-color: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
   color: var(--primary-green);
@@ -52,8 +135,8 @@
 }
 
 .center-location-btn svg {
-  width: 24px;
-  height: 24px;
+  width: calc(var(--spacing-unit) * 3);
+  height: calc(var(--spacing-unit) * 3);
 }
 
 html[dir="rtl"] .center-location-btn {
@@ -84,12 +167,12 @@ html[dir="rtl"] .center-location-btn {
 /* Bottom Panel */
 .bottom-panel {
   position: absolute;
-  bottom: 170px;
+  bottom: 80px;
   left: 12px;
   right: 12px;
   background-color: var(--bg-primary);
   border-radius: 10px;
-  padding: calc(var(--spacing-unit) * 1.2);
+  padding: calc(var(--spacing-unit) * 1.5);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   border: 2px solid var(--primary-green);
@@ -223,66 +306,29 @@ html[dir="rtl"] .center-location-btn {
   color: var(--text-primary);
 }
 
-@media (max-height: 700px) {
-  .bottom-panel {
-    bottom: 120px;
-    padding: calc(var(--spacing-unit) * 2);
-  }
-  
-  .center-location-btn {
-    bottom: 240px;
-  }
-  
-  .tab-buttons {
-    padding: 4px;
-  }
-  
-  .tab-button {
-    padding: calc(var(--spacing-unit) * 2);
-  }
-}
-
-@media (max-height: 600px) {
-  .bottom-panel {
-    bottom: 100px;
-    padding: calc(var(--spacing-unit) * 1.5);
-  }
-  
-  .center-location-btn {
-    bottom: 210px;
-  }
-  
-  .search-container {
-    padding: calc(var(--spacing-unit) * 1);
-    margin-bottom: calc(var(--spacing-unit) * 1.5);
-  }
-  
-  .tab-buttons {
-    padding: 3px;
-  }
-  
-  .tab-button {
-    padding: calc(var(--spacing-unit) * 1.5);
-  }
-}
-
 /* Remove scrolling */
 html, body {
   overflow: hidden;
   height: 100vh;
+  max-height: 100vh;
+  position: fixed;
+  width: 100%;
 }
 
 #root {
   height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
 }
 
 .app-container {
   height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
 }
 
 .main-content {
-  height: calc(100vh - 70px);
+  height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
 }

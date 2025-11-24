@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet';
 import SelectLocationModal from '../components/SelectLocationModal';
+import Sidebar from '../components/Sidebar';
 import 'leaflet/dist/leaflet.css';
 import './Home.css';
 
@@ -18,6 +19,18 @@ let DefaultIcon = L.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
+
+// Custom icon for current location
+const currentLocationIcon = new L.DivIcon({
+  className: 'current-location-marker',
+  html: `
+    <div class="location-marker-outer">
+      <div class="location-marker-inner"></div>
+    </div>
+  `,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+});
 
 // Component to handle map movement and update pickup location
 function HomeMapController({ onLocationChange }) {
@@ -80,8 +93,9 @@ const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('ride');
-  const [userLocation] = useState([24.8607, 67.0011]); // Karachi coordinates
+  const [userLocation] = useState([24.9419, 67.1143]); // IBA Main Campus coordinates
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // Check if returning from review trip with existing locations
   const existingPickup = location.state?.pickup;
@@ -89,7 +103,7 @@ const Home = () => {
   
   const [pickupLocation, setPickupLocation] = useState(
     existingPickup || {
-      coordinates: [24.8607, 67.0011],
+      coordinates: [24.9419, 67.1143],
       address: 'Loading...',
       name: 'Current Location'
     }
@@ -140,18 +154,24 @@ const Home = () => {
   const handleLocationSelect = (location, fieldType) => {
     if (fieldType === 'pickup') {
       setPickupLocation(location);
-    } else {
+    } else if (fieldType === 'dropoff') {
       setDropoffLocation(location);
-      // Navigate to review trip when dropoff is selected
+    }
+    
+    console.log(`Selected ${fieldType} location:`, location);
+  };
+
+  // Effect to navigate when both locations are set
+  useEffect(() => {
+    if (pickupLocation && dropoffLocation && !isLocationModalOpen) {
       navigate('/review-trip', {
         state: {
           pickup: pickupLocation,
-          dropoff: location
+          dropoff: dropoffLocation
         }
       });
     }
-    console.log(`Selected ${fieldType} location:`, location);
-  };
+  }, [pickupLocation, dropoffLocation, isLocationModalOpen, navigate]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -160,8 +180,23 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      
       {/* Map Section */}
       <div className="map-container">
+        {/* Hamburger Menu Button */}
+        <button 
+          className="home-hamburger-button" 
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open menu"
+        >
+          <div className="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        
         <MapContainer 
           center={userLocation} 
           zoom={14} 
@@ -172,15 +207,9 @@ const Home = () => {
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Circle 
-            center={userLocation} 
-            radius={20} 
-            pathOptions={{ 
-              fillColor: '#4285F4', 
-              fillOpacity: 1,
-              color: '#ffffff',
-              weight: 3
-            }} 
+          <Marker 
+            position={userLocation} 
+            icon={currentLocationIcon}
           />
           <Circle 
             center={userLocation} 

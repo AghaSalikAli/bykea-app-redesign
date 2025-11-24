@@ -14,9 +14,15 @@
 .edit-your-ride-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
   background-color: var(--bg-primary);
-  padding-bottom: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
 /* Header */
@@ -130,10 +136,15 @@
 
 /* Edit Options */
 .edit-options {
+  flex: 1;
   padding: calc(var(--spacing-unit) * 3);
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing-unit) * 2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--spacing-unit) * 10);
 }
 
 .edit-option-card {

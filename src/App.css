@@ -183,14 +183,17 @@ input:focus, select:focus {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  height: calc(100vh - 72px);
+  max-height: calc(100vh - 72px);
 }
 
 /* Bottom Navigation */
 .bottom-nav {
-  position: relative;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  height: 72px;
   background-color: var(--bg-primary);
   border-top: 2px solid var(--border-color);
   display: flex;
@@ -212,10 +215,9 @@ html[dir="rtl"] .bottom-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(var(--spacing-unit) * 0.5);
-  padding: calc(var(--spacing-unit) * 1);
-  min-width: 64px;
-  min-height: 56px;
+  gap: calc(var(--spacing-unit) * 0.25);
+  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1);
+  min-width: 60px;
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.2s ease;

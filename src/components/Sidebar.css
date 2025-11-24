@@ -182,6 +182,7 @@ html[dir="rtl"] .menu-arrow svg {
 
 .sidebar-footer {
   padding: calc(var(--spacing-unit) * 3);
+  padding-bottom: calc(var(--spacing-unit) * 12);
   border-top: 2px solid var(--border-color);
 }
 

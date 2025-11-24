@@ -1,7 +1,13 @@
 .settings-page {
+  height: 100vh;
+  max-height: 100vh;
   padding: calc(var(--spacing-unit) * 2);
   max-width: 100%;
   margin: 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--spacing-unit) * 12);
 }
 
 .settings-header {

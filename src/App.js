@@ -32,7 +32,6 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      <Header onMenuClick={toggleSidebar} />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       
       <main className="main-content">

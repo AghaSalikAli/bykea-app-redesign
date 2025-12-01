@@ -49,14 +49,14 @@ const SelectLocationModal = ({
   const recentPlaces = [
     {
       id: 1,
-      name: 'IBA City Campus',
-      address: 'Plot # 68 & 88 Garden, Kiyani Shaheed Rd, Karachi',
+      name: 'Muhammad Ali Jinnah Road',
+      address: 'Muhammad Ali Jinnah Road',
       distance: '22.7km',
-      coordinates: [24.8671, 67.0257]
+      coordinates: [24.87553277982269, 67.04097209632712]
     },
     {
       id: 2,
-      name: 'Dolmen Mall Clifton',
+      name: 'Bahria Underpass',
       address: 'HC-3, Block 4 Clifton, Karachi',
       distance: '4.5km',
       coordinates: [24.8138, 67.0282]
@@ -70,7 +70,7 @@ const SelectLocationModal = ({
     },
     {
       id: 4,
-      name: 'Saddar Empress Market',
+      name: 'Karachi Grammar School - Middle School',
       address: 'M. A. Jinnah Road, Saddar, Karachi',
       distance: '6.5km',
       coordinates: [24.8643, 67.0281]

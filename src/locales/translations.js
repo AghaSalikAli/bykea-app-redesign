@@ -78,6 +78,8 @@ export const translations = {
     'rideBooking.accept': 'Accept',
     'rideBooking.cancel': 'Cancel',
     'rideBooking.away': 'away',
+    'rideBooking.ridesFound': 'rides found',
+    'rideBooking.rides': 'rides',
     
     // Review Driver
     'reviewDriver.title': 'Review Your Driver',
@@ -88,12 +90,14 @@ export const translations = {
     // Thank You / Ride Confirmed
     'thankYou.title': 'Thank You!',
     'thankYou.message': 'Your ride has been confirmed',
-    'thankYou.driverName': 'Driver Name:',
+    'thankYou.driver': 'Driver Name:',
     'thankYou.vehicleNumber': 'Vehicle Number:',
-    'thankYou.vehicle': 'Vehicle:',
-    'thankYou.estimatedPrice': 'Estimated Price:',
+    'thankYou.vehicle': 'Vehicle',
+    'thankYou.estimatedPrice': 'Estimated Price',
     'thankYou.preparing': 'Preparing your ride...',
     'thankYou.trackRide': 'Track Ride',
+    'thankYou.driver': 'Driver',
+    'thankYou.preparingRide': 'Preparing your ride...',
     
     // Track Ride
     'trackRide.arriving': 'Arriving in',
@@ -357,6 +361,8 @@ export const translations = {
     'rideBooking.accept': 'قبول کریں',
     'rideBooking.cancel': 'منسوخ کریں',
     'rideBooking.away': 'دور',
+    'rideBooking.ridesFound': 'سواریاں مل گئیں',
+    'rideBooking.rides': 'سواریاں',
     
     // Review Driver
     'reviewDriver.title': 'اپنے ڈرائیور کا جائزہ لیں',
@@ -373,7 +379,9 @@ export const translations = {
     'thankYou.estimatedPrice': 'تخمینہ قیمت:',
     'thankYou.preparing': 'آپ کی سواری تیار کر رہے ہیں...',
     'thankYou.trackRide': 'سواری کو ٹریک کریں',
-    
+    'thankYou.driver': 'ڈرائیور',
+    'thankYou.preparingRide': 'آپ کی سواری تیار کر رہے ہیں...',
+
     // Track Ride
     'trackRide.arriving': 'پہنچ رہا ہے',
     'trackRide.minutes': 'منٹ',

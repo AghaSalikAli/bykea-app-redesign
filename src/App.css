@@ -69,22 +69,34 @@ html[data-high-contrast="true"] * {
 }
 
 /* Colorblind Modes */
+/* Protanopia (Red-Blind) - Replace red with orange/brown, use blue for green */
 html[data-colorblind-mode="protanopia"] {
-  --primary-green: #0088cc;
-  --secondary-yellow: #ffaa00;
-  --secondary-red: #0066aa;
+  --primary-green: #0077BB;
+  --primary-dark: #005588;
+  --primary-light: #E6F2F9;
+  --secondary-red: #CC7700;
+  --secondary-yellow: #FFD700;
+  --secondary-blue: #0088CC;
 }
 
+/* Deuteranopia (Green-Blind) - Similar to protanopia, use blue/yellow contrast */
 html[data-colorblind-mode="deuteranopia"] {
-  --primary-green: #0088cc;
-  --secondary-yellow: #ffaa00;
-  --secondary-red: #bb6600;
+  --primary-green: #0099DD;
+  --primary-dark: #006699;
+  --primary-light: #E6F5FA;
+  --secondary-red: #DD8800;
+  --secondary-yellow: #FFCC00;
+  --secondary-blue: #0077CC;
 }
 
+/* Tritanopia (Blue-Blind) - Use red/teal, avoid blue/yellow */
 html[data-colorblind-mode="tritanopia"] {
-  --primary-green: #cc0088;
-  --secondary-blue: #cc0000;
-  --secondary-yellow: #ff6688;
+  --primary-green: #00CC88;
+  --primary-dark: #009966;
+  --primary-light: #E6F9F2;
+  --secondary-red: #EE3344;
+  --secondary-blue: #CC0066;
+  --secondary-yellow: #FF6699;
 }
 
 /* RTL Support */

@@ -5,6 +5,7 @@ import SelectLocationModal from '../components/SelectLocationModal';
 import Sidebar from '../components/Sidebar';
 import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import { useLanguage, useTranslation } from '../contexts/LanguageContext';
+import { useAccessibility } from '../contexts/AccessibilityContext';
 import { useReadAloud } from '../hooks/useReadAloud';
 import 'leaflet/dist/leaflet.css';
 import './Home.css';
@@ -106,6 +107,7 @@ const Home = () => {
   const { language, toggleLanguage } = useLanguage();
   const { t } = useTranslation();
   const { readText } = useReadAloud();
+  const { readAloudEnabled, setReadAloudEnabled } = useAccessibility();
   const [activeTab, setActiveTab] = useState('ride');
   const [userLocation] = useState([24.9419, 67.1143]); // IBA Main Campus coordinates
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -163,6 +165,10 @@ const Home = () => {
   const handleSearchClick = () => {
     setCurrentLocationType('dropoff');
     setIsLocationModalOpen(true);
+    // Announce the full prompt when modal opens
+    setTimeout(() => {
+      readText(activeTab === 'ride' ? t('home.whereGo') : t('home.whereDeliver'));
+    }, 300);
   };
 
   const handleLocationSelect = (location, fieldType) => {
@@ -235,6 +241,38 @@ const Home = () => {
           <span className="toggle-divider"></span>
           <span className={`lang-option ${language === 'ur' ? 'active' : ''}`}>اردو</span>
         </ReadAloudWrapper>
+
+        {/* Read Aloud Toggle Button */}
+        <button
+          className={`read-aloud-toggle-button ${readAloudEnabled ? 'active' : ''}`}
+          onClick={() => {
+            const newState = !readAloudEnabled;
+            setReadAloudEnabled(newState);
+            // Announce the toggle state after setting it
+            setTimeout(() => {
+              if (newState) {
+                readText('Read aloud has been enabled. Text will now be read when you hover over or focus on elements.');
+              } else {
+                readText('Read aloud has been disabled.');
+              }
+            }, 100);
+          }}
+          onMouseEnter={() => readText(readAloudEnabled ? 'Read aloud is currently enabled. Click to disable.' : 'Read aloud is currently disabled. Click to enable.')}
+          aria-label="Toggle read aloud"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            {readAloudEnabled && (
+              <>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M18.36 5.64a9 9 0 0 1 0 12.73" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </>
+            )}
+            {!readAloudEnabled && (
+              <path d="M16 9l6 6m0-6l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            )}
+          </svg>
+        </button>
         
         <MapContainer 
           center={userLocation} 
@@ -254,9 +292,9 @@ const Home = () => {
             center={userLocation} 
             radius={500} 
             pathOptions={{ 
-              fillColor: '#00a859', 
+              fillColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-green').trim() || '#00a859', 
               fillOpacity: 0.1,
-              color: '#00a859',
+              color: getComputedStyle(document.documentElement).getPropertyValue('--primary-green').trim() || '#00a859',
               weight: 1
             }} 
           />
@@ -264,9 +302,9 @@ const Home = () => {
             center={userLocation} 
             radius={1000} 
             pathOptions={{ 
-              fillColor: '#00a859', 
+              fillColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-green').trim() || '#00a859', 
               fillOpacity: 0.05,
-              color: '#00a859',
+              color: getComputedStyle(document.documentElement).getPropertyValue('--primary-green').trim() || '#00a859',
               weight: 1
             }} 
           />
@@ -281,7 +319,7 @@ const Home = () => {
           onHover={true}
         >
           <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 0C9.85 0 1.6 8.25 1.6 18.4C1.6 32.2 20 48 20 48C20 48 38.4 32.2 38.4 18.4C38.4 8.25 30.15 0 20 0ZM20 25.2C16.25 25.2 13.2 22.15 13.2 18.4C13.2 14.65 16.25 11.6 20 11.6C23.75 11.6 26.8 14.65 26.8 18.4C26.8 22.15 23.75 25.2 20 25.2Z" fill="#00a859"/>
+            <path d="M20 0C9.85 0 1.6 8.25 1.6 18.4C1.6 32.2 20 48 20 48C20 48 38.4 32.2 38.4 18.4C38.4 8.25 30.15 0 20 0ZM20 25.2C16.25 25.2 13.2 22.15 13.2 18.4C13.2 14.65 16.25 11.6 20 11.6C23.75 11.6 26.8 14.65 26.8 18.4C26.8 22.15 23.75 25.2 20 25.2Z" className="pin-color"/>
           </svg>
         </ReadAloudWrapper>
       </div>

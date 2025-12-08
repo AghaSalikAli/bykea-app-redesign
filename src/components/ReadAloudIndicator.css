@@ -1,24 +1,24 @@
 .read-aloud-indicator {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  top: 120px;
+  right: 16px;
   z-index: 9999;
   background-color: var(--primary-green);
   color: white;
-  padding: 12px;
+  padding: 10px;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.7;
+  opacity: 0.8;
   transition: all 0.3s ease;
   pointer-events: none;
 }
 
 html[dir="rtl"] .read-aloud-indicator {
   right: auto;
-  left: 20px;
+  left: 16px;
 }
 
 .read-aloud-indicator.active {
@@ -70,9 +70,9 @@ html[dir="rtl"] .read-aloud-indicator {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .read-aloud-indicator {
-    bottom: 80px;
+    top: 120px;
     right: 16px;
-    padding: 10px;
+    padding: 8px;
   }
   
   html[dir="rtl"] .read-aloud-indicator {
@@ -81,7 +81,7 @@ html[dir="rtl"] .read-aloud-indicator {
   }
   
   .read-aloud-indicator svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
 }

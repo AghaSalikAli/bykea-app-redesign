@@ -48,7 +48,7 @@ function AppContent() {
   return (
     <div className="app-container">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <ReadAloudIndicator />
+      {/* <ReadAloudIndicator /> */}
       
       <main className="main-content">
         <Routes>

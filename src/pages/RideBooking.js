@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import { useTranslation } from '../contexts/LanguageContext';
+import { useReadAloud } from '../hooks/useReadAloud';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './RideBooking.css';
 
 // Custom icons
@@ -33,6 +35,7 @@ const RideBooking = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const { readText } = useReadAloud();
   const { pickup, dropoff, stops = [], distance, duration, vehicle, estimatedPrice } = location.state || {};
 
   const [searchingForRides, setSearchingForRides] = useState(true);
@@ -41,6 +44,13 @@ const RideBooking = () => {
   const [routeCoords, setRouteCoords] = useState([]);
 
   // Mock drivers data
+  // Announce "looking for rides" when component mounts
+  useEffect(() => {
+    if (searchingForRides) {
+      readText(t('rideBooking.lookingForRides'));
+    }
+  }, []);
+
   const mockDrivers = [
     {
       id: 1,
@@ -243,11 +253,17 @@ const RideBooking = () => {
           </MapContainer>
 
           {/* Back button */}
-          <button className="back-button" onClick={handleCancel}>
+          <ReadAloudWrapper
+            as="button"
+            text={t('common.back')}
+            className="back-button"
+            onClick={handleCancel}
+            onHover={true}
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </button>
+          </ReadAloudWrapper>
         </div>
 
         {/* Details Panel */}
@@ -317,9 +333,15 @@ const RideBooking = () => {
           </div>
 
           {/* Cancel button - Fixed at bottom */}
-          <button className="cancel-button" onClick={handleCancel}>
+          <ReadAloudWrapper
+            as="button"
+            text={t('rideBooking.cancel')}
+            className="cancel-button"
+            onClick={handleCancel}
+            onHover={true}
+          >
             {t('rideBooking.cancel')}
-          </button>
+          </ReadAloudWrapper>
         </div>
       </div>
     );
@@ -381,12 +403,24 @@ const RideBooking = () => {
             </div>
 
             <div className="ride-actions">
-              <button className="ride-cancel-btn" onClick={() => handleCancelRide(ride.id)}>
+              <ReadAloudWrapper
+                as="button"
+                text={t('rideBooking.cancel')}
+                className="ride-cancel-btn"
+                onClick={() => handleCancelRide(ride.id)}
+                onHover={true}
+              >
                 {t('rideBooking.cancel')}
-              </button>
-              <button className="ride-accept-btn" onClick={() => handleAcceptRide(ride)}>
+              </ReadAloudWrapper>
+              <ReadAloudWrapper
+                as="button"
+                text={`${t('rideBooking.accept')} ride from ${ride.name} for Rs. ${ride.price}`}
+                className="ride-accept-btn"
+                onClick={() => handleAcceptRide(ride)}
+                onHover={true}
+              >
                 {t('rideBooking.accept')}
-              </button>
+              </ReadAloudWrapper>
             </div>
 
             {/* Timer bar */}

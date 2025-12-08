@@ -1,0 +1,87 @@
+.read-aloud-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background-color: var(--primary-green);
+  color: white;
+  padding: 12px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+html[dir="rtl"] .read-aloud-indicator {
+  right: auto;
+  left: 20px;
+}
+
+.read-aloud-indicator.active {
+  opacity: 1;
+  background-color: #00c96d;
+  box-shadow: 0 4px 16px rgba(0, 168, 89, 0.4);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.read-aloud-indicator svg {
+  display: block;
+}
+
+.read-aloud-indicator .wave {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.read-aloud-indicator.active .wave {
+  opacity: 1;
+}
+
+.read-aloud-indicator.active .wave-1 {
+  animation: wave 1s ease-in-out infinite;
+}
+
+.read-aloud-indicator.active .wave-2 {
+  animation: wave 1s ease-in-out infinite 0.2s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .read-aloud-indicator {
+    bottom: 80px;
+    right: 16px;
+    padding: 10px;
+  }
+  
+  html[dir="rtl"] .read-aloud-indicator {
+    right: auto;
+    left: 16px;
+  }
+  
+  .read-aloud-indicator svg {
+    width: 18px;
+    height: 18px;
+  }
+}

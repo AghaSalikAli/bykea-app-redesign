@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import 'leaflet/dist/leaflet.css';
 import './TrackRide.css';
 
@@ -15,8 +16,11 @@ const TrackRide = () => {
   const [route, setRoute] = useState([]);
   const [driverPosition, setDriverPosition] = useState(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [eta, setEta] = useState(215); // 3:35 in seconds
+  const [eta, setEta] = useState(30); // 30 seconds until driver arrives
   const [rideStarted, setRideStarted] = useState(false);
+  const [rideTime, setRideTime] = useState(0);
+  const animationRef = useRef(null);
+  const rideTimerRef = useRef(null);
 
   // Fetch route on mount
   useEffect(() => {
@@ -44,7 +48,11 @@ const TrackRide = () => {
             coord => [coord[1], coord[0]]
           );
           setRoute(routeCoordinates);
-          setDriverPosition(routeCoordinates[0]);
+          
+          // Start driver at a position along the route (30% from pickup)
+          const startIndex = Math.floor(routeCoordinates.length * 0.3);
+          setDriverPosition(routeCoordinates[startIndex]);
+          setCurrentStepIndex(startIndex);
         }
       } catch (error) {
         console.error('Error fetching route:', error);
@@ -54,33 +62,54 @@ const TrackRide = () => {
     fetchRoute();
   }, [pickup, dropoff, stops]);
 
-  // Animate driver movement along route
+  // Animate driver movement to pickup (30 seconds)
   useEffect(() => {
-    if (route.length === 0) return;
+    if (route.length === 0 || currentStepIndex === 0) return;
 
-    // Wait 30 seconds before starting ride
-    const startDelay = setTimeout(() => {
-      setRideStarted(true);
-    }, 30000);
+    const pickupSteps = currentStepIndex; // Steps from current position to pickup
+    const stepDuration = (30 * 1000) / pickupSteps; // Distribute 30 seconds across steps
 
-    return () => clearTimeout(startDelay);
+    animationRef.current = setInterval(() => {
+      setCurrentStepIndex(prevIndex => {
+        const nextIndex = prevIndex - 1;
+        if (nextIndex <= 0) {
+          clearInterval(animationRef.current);
+          // Driver reached pickup - start ride after brief pause
+          setTimeout(() => {
+            setRideStarted(true);
+          }, 2000);
+          setDriverPosition(route[0]);
+          return 0;
+        }
+        setDriverPosition(route[nextIndex]);
+        return nextIndex;
+      });
+    }, stepDuration);
+
+    return () => {
+      if (animationRef.current) clearInterval(animationRef.current);
+    };
   }, [route]);
 
+  // Animate ride (10 seconds from pickup to dropoff)
   useEffect(() => {
     if (route.length === 0 || !rideStarted) return;
 
     const totalSteps = route.length;
-    const stepDuration = 200; // Move every 200ms for smooth animation
+    const stepDuration = (10 * 1000) / totalSteps; // 10 seconds for entire ride
 
-    const interval = setInterval(() => {
+    animationRef.current = setInterval(() => {
       setCurrentStepIndex(prevIndex => {
         const nextIndex = prevIndex + 1;
         if (nextIndex >= totalSteps) {
-          clearInterval(interval);
-          // Ride completed - navigate to home
+          clearInterval(animationRef.current);
+          // Ride completed - show rating screen
           setTimeout(() => {
-            navigate('/', { replace: true });
-          }, 2000);
+            navigate('/rate-driver', { 
+              state: { driver, estimatedPrice },
+              replace: true 
+            });
+          }, 1000);
           return prevIndex;
         }
         setDriverPosition(route[nextIndex]);
@@ -88,11 +117,21 @@ const TrackRide = () => {
       });
     }, stepDuration);
 
-    return () => clearInterval(interval);
-  }, [route, rideStarted, navigate]);
+    // Start ride timer
+    rideTimerRef.current = setInterval(() => {
+      setRideTime(prev => prev + 1);
+    }, 1000);
 
-  // Countdown ETA timer
+    return () => {
+      if (animationRef.current) clearInterval(animationRef.current);
+      if (rideTimerRef.current) clearInterval(rideTimerRef.current);
+    };
+  }, [rideStarted, navigate, driver, estimatedPrice]);
+
+  // Countdown ETA timer (only when ride hasn't started)
   useEffect(() => {
+    if (rideStarted) return;
+
     const timer = setInterval(() => {
       setEta(prevEta => {
         if (prevEta <= 0) {
@@ -104,24 +143,12 @@ const TrackRide = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [rideStarted]);
 
-  const formatETA = (seconds) => {
+  const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-//   const handleCall = () => {
-//     alert(`Calling ${driver.name}...`);
-//   };
-
-//   const handleMessage = () => {
-//     alert(`Messaging ${driver.name}...`);
-//   };
-
-  const handleBack = () => {
-    navigate('/');
   };
 
   const handleCall = () => {
@@ -134,6 +161,17 @@ const TrackRide = () => {
 
   const handleReportProblem = () => {
     alert('Report a Problem feature coming soon!');
+  };
+
+  const handleCancelRide = () => {
+    if (window.confirm(t('trackRide.confirmCancel'))) {
+      // Clear all timers
+      if (animationRef.current) clearInterval(animationRef.current);
+      if (rideTimerRef.current) clearInterval(rideTimerRef.current);
+      
+      // Navigate to home
+      navigate('/', { replace: true });
+    }
   };
 
   if (!pickup || !dropoff || !driver) {
@@ -250,7 +288,10 @@ const TrackRide = () => {
 
         {/* Status Message */}
         <div className="track-status-message">
-          {!rideStarted ? t('trackRide.driverComing') : t('trackRide.rideInProgress')}
+          {!rideStarted 
+            ? `${t('trackRide.driverComing').replace('3:35', formatTime(eta))}`
+            : `${t('trackRide.rideInProgress')} (${formatTime(rideTime)})`
+          }
         </div>
 
         {/* Driver Info */}
@@ -314,18 +355,47 @@ const TrackRide = () => {
 
         {/* Action Buttons */}
         {!rideStarted ? (
-          <div className="track-actions">
-            <button className="track-action-btn track-call-btn" onClick={handleCall}>
-              {t('trackRide.call')}
-            </button>
-            <button className="track-action-btn track-message-btn" onClick={handleMessage}>
-              {t('trackRide.message')}
-            </button>
-          </div>
+          <>
+            <div className="track-actions">
+              <ReadAloudWrapper
+                as="button"
+                text={t('trackRide.call')}
+                className="track-action-btn track-call-btn"
+                onClick={handleCall}
+                onHover={true}
+              >
+                {t('trackRide.call')}
+              </ReadAloudWrapper>
+              <ReadAloudWrapper
+                as="button"
+                text={t('trackRide.message')}
+                className="track-action-btn track-message-btn"
+                onClick={handleMessage}
+                onHover={true}
+              >
+                {t('trackRide.message')}
+              </ReadAloudWrapper>
+            </div>
+            <ReadAloudWrapper
+              as="button"
+              text={t('trackRide.cancelRide')}
+              className="track-cancel-ride-btn"
+              onClick={handleCancelRide}
+              onHover={true}
+            >
+              {t('trackRide.cancelRide')}
+            </ReadAloudWrapper>
+          </>
         ) : (
-          <button className="track-report-btn" onClick={handleReportProblem}>
+          <ReadAloudWrapper
+            as="button"
+            text={t('trackRide.reportProblem')}
+            className="track-report-btn"
+            onClick={handleReportProblem}
+            onHover={true}
+          >
             {t('trackRide.reportProblem')}
-          </button>
+          </ReadAloudWrapper>
         )}
       </div>
     </div>

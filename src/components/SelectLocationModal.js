@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from './ReadAloudWrapper';
 import 'leaflet/dist/leaflet.css';
 import './SelectLocationModal.css';
 
@@ -185,12 +186,18 @@ const SelectLocationModal = ({
         <div className="modal-handle-bar"></div>
         
         {/* Close button */}
-        <button className="modal-close-btn" onClick={onClose} aria-label="Close">
+        <ReadAloudWrapper
+          as="button"
+          text="Close"
+          className="modal-close-btn"
+          onClick={onClose}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
 
         {/* Header */}
         <h2 className="modal-title">{t('location.selectAddress')}</h2>
@@ -276,10 +283,13 @@ const SelectLocationModal = ({
           <h3 className="recent-places-title">{t('location.recentPlaces')}</h3>
           <div className="recent-places-list">
             {recentPlaces.map((place) => (
-              <button
+              <ReadAloudWrapper
                 key={place.id}
+                as="button"
+                text={`${place.name}, ${place.distance} away`}
                 className="recent-place-item"
                 onClick={() => handlePlaceSelect(place)}
+                onHover={true}
               >
                 <div className="place-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -292,7 +302,7 @@ const SelectLocationModal = ({
                   <p className="place-address">{place.address}</p>
                 </div>
                 <span className="place-distance">{place.distance}</span>
-              </button>
+              </ReadAloudWrapper>
             ))}
           </div>
         </div>
@@ -311,9 +321,15 @@ const SelectLocationModal = ({
 
         {/* Confirm Button Container */}
         <div className="confirm-button-container">
-          <button className="confirm-location-btn" onClick={handleConfirm}>
+          <ReadAloudWrapper
+            as="button"
+            text={t('location.confirmLocation')}
+            className="confirm-location-btn"
+            onClick={handleConfirm}
+            onHover={true}
+          >
             {t('location.confirmLocation')}
-          </button>
+          </ReadAloudWrapper>
         </div>
       </div>
     </>

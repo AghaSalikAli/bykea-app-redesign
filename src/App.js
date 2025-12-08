@@ -4,6 +4,7 @@ import { AccessibilityProvider } from './contexts/AccessibilityContext';
 import { LanguageProvider, useTranslation } from './contexts/LanguageContext';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import ReadAloudIndicator from './components/ReadAloudIndicator';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import PlaceholderPage from './pages/PlaceholderPage';
@@ -16,6 +17,7 @@ import RideBooking from './pages/RideBooking';
 import ReviewDriver from './pages/ReviewDriver';
 import ThankYou from './pages/ThankYou';
 import TrackRide from './pages/TrackRide';
+import RateDriver from './pages/RateDriver';
 import Offers from './pages/Offers';
 import Wallet from './pages/Wallet';
 import Shops from './pages/Shops';
@@ -26,6 +28,7 @@ import PaymentMethods from './pages/PaymentMethods';
 import Notifications from './pages/Notifications';
 import HelpSupport from './pages/HelpSupport';
 import About from './pages/About';
+import ReadAloudWrapper from './components/ReadAloudWrapper';
 import './App.css';
 
 function AppContent() {
@@ -45,6 +48,7 @@ function AppContent() {
   return (
     <div className="app-container">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <ReadAloudIndicator />
       
       <main className="main-content">
         <Routes>
@@ -58,6 +62,7 @@ function AppContent() {
           <Route path="/review-driver" element={<ReviewDriver />} />
           <Route path="/ride-confirmed" element={<ThankYou />} />
           <Route path="/track-ride" element={<TrackRide />} />
+          <Route path="/rate-driver" element={<RateDriver />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/rides" element={<RidesHistory />} />
@@ -103,10 +108,12 @@ function AppContent() {
       {/* Bottom Navigation - Only show on home and main pages */}
       {(location.pathname === '/' || location.pathname === '/offers' || location.pathname === '/wallet' || location.pathname === '/shops' || location.pathname === '/settings' || location.pathname === '/profile' || location.pathname === '/rides' || location.pathname === '/packages' || location.pathname === '/payment' || location.pathname === '/history' || location.pathname === '/notifications' || location.pathname === '/help' || location.pathname === '/about') && (
       <nav className="bottom-nav" aria-label="Main navigation">
-        <button 
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.home')}
           className={`nav-item ${isActive('/') ? 'active' : ''}`}
           onClick={() => navigate('/')}
-          aria-label="Home"
+          onHover={true}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,11 +122,13 @@ function AppContent() {
             </svg>
           </span>
           <span className="nav-label">{t('common.home')}</span>
-        </button>
-        <button 
+        </ReadAloudWrapper>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.offers')}
           className={`nav-item ${isActive('/offers') ? 'active' : ''}`}
           onClick={() => navigate('/offers')}
-          aria-label={t('common.offers')}
+          onHover={true}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -128,11 +137,13 @@ function AppContent() {
             </svg>
           </span>
           <span className="nav-label">{t('common.offers')}</span>
-        </button>
-        <button 
+        </ReadAloudWrapper>
+        <ReadAloudWrapper
+          as="button"
+          text={t('sidebar.wallet')}
           className={`nav-item ${isActive('/wallet') ? 'active' : ''}`}
           onClick={() => navigate('/wallet')}
-          aria-label={t('sidebar.wallet')}
+          onHover={true}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -141,11 +152,13 @@ function AppContent() {
             </svg>
           </span>
           <span className="nav-label">{t('sidebar.wallet')}</span>
-        </button>
-        <button 
+        </ReadAloudWrapper>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.shops')}
           className={`nav-item ${isActive('/shops') ? 'active' : ''}`}
           onClick={() => navigate('/shops')}
-          aria-label={t('common.shops')}
+          onHover={true}
         >
           <span className="nav-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +168,7 @@ function AppContent() {
             </svg>
           </span>
           <span className="nav-label">{t('common.shops')}</span>
-        </button>
+        </ReadAloudWrapper>
       </nav>
       )}
     </div>

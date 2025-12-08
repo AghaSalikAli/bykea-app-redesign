@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import L from 'leaflet';
 import './ReviewTrip.css';
 
@@ -206,22 +207,35 @@ function ReviewTrip() {
         </MapContainer>
 
         {/* Back button */}
-        <button className="back-button" onClick={() => navigate(-1)}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.back')}
+          className="back-button"
+          onClick={() => navigate(-1)}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
       </div>
 
       <div className="review-details-panel">
         <div className="review-header">
           <h2 className="review-title">{t('reviewTrip.title')}</h2>
-          <button className="edit-button-icon" onClick={handleEdit} title={t('reviewTrip.title')}>
+          <ReadAloudWrapper
+            as="button"
+            text={t('editRide.title')}
+            className="edit-button-icon"
+            onClick={handleEdit}
+            onHover={true}
+            readOnClick={true}
+          >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </button>
+          </ReadAloudWrapper>
         </div>
 
         {/* Scrollable Content */}
@@ -286,9 +300,15 @@ function ReviewTrip() {
         </div>
 
         {/* Confirm button - Fixed at bottom */}
-        <button className="confirm-button" onClick={handleConfirm}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('reviewTrip.confirmRide')}
+          className="confirm-button"
+          onClick={handleConfirm}
+          onHover={true}
+        >
           {t('reviewTrip.confirmRide')}
-        </button>
+        </ReadAloudWrapper>
       </div>
     </div>
   );

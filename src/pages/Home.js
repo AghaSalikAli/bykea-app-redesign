@@ -3,7 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet';
 import SelectLocationModal from '../components/SelectLocationModal';
 import Sidebar from '../components/Sidebar';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import { useLanguage, useTranslation } from '../contexts/LanguageContext';
+import { useReadAloud } from '../hooks/useReadAloud';
 import 'leaflet/dist/leaflet.css';
 import './Home.css';
 
@@ -59,8 +61,9 @@ function HomeMapController({ onLocationChange }) {
 }
 
 // Component to handle map re-centering
-function RecenterButton({ position }) {
+function RecenterButton({ position, buttonText }) {
   const map = useMap();
+  const { readText } = useReadAloud();
   
   const handleRecenter = () => {
     // Get current zoom or use default
@@ -70,12 +73,19 @@ function RecenterButton({ position }) {
     map.flyTo(position, currentZoom, {
       duration: 0.5
     });
+    
+    // Read feedback
+    if (buttonText) {
+      readText(buttonText);
+    }
   };
   
   return (
     <button 
       className="center-location-btn" 
       onClick={handleRecenter}
+      onTouchStart={() => buttonText && readText(buttonText)}
+      onMouseEnter={() => buttonText && readText(buttonText)}
       aria-label="Center on my location"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +105,7 @@ const Home = () => {
   const location = useLocation();
   const { language, toggleLanguage } = useLanguage();
   const { t } = useTranslation();
+  const { readText } = useReadAloud();
   const [activeTab, setActiveTab] = useState('ride');
   const [userLocation] = useState([24.9419, 67.1143]); // IBA Main Campus coordinates
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -178,7 +189,15 @@ const Home = () => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+    // Read the selected tab
+    readText(tab === 'ride' ? t('home.ride') : t('home.courier'));
     // Just toggle the tab, don't navigate away
+  };
+
+  const handleLanguageToggle = () => {
+    toggleLanguage();
+    const newLang = language === 'en' ? 'اردو' : 'English';
+    readText(t('common.languageSwitched') || `Language switched to ${newLang}`);
   };
 
   return (
@@ -188,28 +207,34 @@ const Home = () => {
       {/* Map Section */}
       <div className="map-container">
         {/* Hamburger Menu Button */}
-        <button 
-          className="home-hamburger-button" 
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.menu') || 'Menu'}
+          className="home-hamburger-button"
           onClick={() => setSidebarOpen(true)}
           aria-label="Open menu"
+          onHover={true}
         >
           <div className="hamburger-icon">
             <span></span>
             <span></span>
             <span></span>
           </div>
-        </button>
+        </ReadAloudWrapper>
 
         {/* Language Toggle Button */}
-        <button 
-          className="language-toggle-button" 
-          onClick={toggleLanguage}
+        <ReadAloudWrapper
+          as="button"
+          text={`${t('common.changeLanguage') || 'Change language'}, ${language === 'en' ? 'English' : 'اردو'}`}
+          className="language-toggle-button"
+          onClick={handleLanguageToggle}
           aria-label="Toggle language"
+          onHover={true}
         >
           <span className={`lang-option ${language === 'en' ? 'active' : ''}`}>EN</span>
           <span className="toggle-divider"></span>
           <span className={`lang-option ${language === 'ur' ? 'active' : ''}`}>اردو</span>
-        </button>
+        </ReadAloudWrapper>
         
         <MapContainer 
           center={userLocation} 
@@ -246,21 +271,29 @@ const Home = () => {
             }} 
           />
           <HomeMapController onLocationChange={handleHomeMapMove} />
-          <RecenterButton position={userLocation} />
+          <RecenterButton position={userLocation} buttonText={t('home.currentLocation') || 'Center on my location'} />
         </MapContainer>
         
         {/* Center Pin for Pickup Selection */}
-        <div className="home-center-pin">
+        <ReadAloudWrapper
+          text={`${t('home.pickupLocation')}, ${pickupLocation ? pickupLocation.name : t('home.currentLocation')}`}
+          className="home-center-pin"
+          onHover={true}
+        >
           <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20 0C9.85 0 1.6 8.25 1.6 18.4C1.6 32.2 20 48 20 48C20 48 38.4 32.2 38.4 18.4C38.4 8.25 30.15 0 20 0ZM20 25.2C16.25 25.2 13.2 22.15 13.2 18.4C13.2 14.65 16.25 11.6 20 11.6C23.75 11.6 26.8 14.65 26.8 18.4C26.8 22.15 23.75 25.2 20 25.2Z" fill="#00a859"/>
           </svg>
-        </div>
+        </ReadAloudWrapper>
       </div>
 
       {/* Bottom Panel */}
       <div className="bottom-panel">
         {/* From Location Display */}
-        <div className="from-location-display">
+        <ReadAloudWrapper
+          text={`${t('home.from')}, ${pickupLocation ? pickupLocation.name : t('home.currentLocation')}`}
+          className="from-location-display"
+          onHover={true}
+        >
           <span className="location-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2"/>
@@ -276,11 +309,17 @@ const Home = () => {
             value={pickupLocation ? pickupLocation.name : t('home.currentLocation')}
             className="location-input"
             readOnly
+            onFocus={() => readText(`${t('home.from')}, ${pickupLocation ? pickupLocation.name : t('home.currentLocation')}`)}
           />
-        </div>
+        </ReadAloudWrapper>
 
         {/* To/Search Input */}
-        <div className="search-container" onClick={handleSearchClick}>
+        <ReadAloudWrapper
+          text={dropoffLocation ? `${t('home.to')}, ${dropoffLocation.name}` : (activeTab === 'ride' ? t('home.whereGo') : t('home.whereDeliver'))}
+          className="search-container"
+          onClick={handleSearchClick}
+          onHover={true}
+        >
           <span className="search-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -295,25 +334,31 @@ const Home = () => {
             readOnly
             aria-label={activeTab === 'ride' ? t('home.whereGo') : t('home.whereDeliver')}
           />
-        </div>
+        </ReadAloudWrapper>
 
         {/* Tab Buttons */}
         <div className="tab-buttons">
           <div className={`tab-slider ${activeTab === 'courier' ? 'slider-right' : ''}`}></div>
-          <button
+          <ReadAloudWrapper
+            as="button"
+            text={`${t('home.ride')} ${activeTab === 'ride' ? t('common.selected') || 'selected' : ''}`}
             className={`tab-button ${activeTab === 'ride' ? 'active' : ''}`}
             onClick={() => handleTabChange('ride')}
             aria-pressed={activeTab === 'ride'}
+            onHover={true}
           >
             {t('home.ride')}
-          </button>
-          <button
+          </ReadAloudWrapper>
+          <ReadAloudWrapper
+            as="button"
+            text={`${t('home.courier')} ${activeTab === 'courier' ? t('common.selected') || 'selected' : ''}`}
             className={`tab-button ${activeTab === 'courier' ? 'active' : ''}`}
             onClick={() => handleTabChange('courier')}
             aria-pressed={activeTab === 'courier'}
+            onHover={true}
           >
             {t('home.courier')}
-          </button>
+          </ReadAloudWrapper>
         </div>
       </div>
 

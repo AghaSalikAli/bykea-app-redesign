@@ -159,12 +159,21 @@
   text-align: center;
 }
 
+.vehicle-price {
+  font-size: calc(var(--font-size-base) * 1.25);
+  font-weight: 700;
+  color: var(--primary-green);
+  margin: calc(var(--spacing-unit) * 0.5) 0 0 0;
+  text-align: center;
+}
+
+.vehicle-card.selected .vehicle-price {
+  color: var(--primary-green);
+  font-weight: 800;
+}
+
 /* Confirm Button */
 .vehicle-confirm-button {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   margin: 16px 20px 20px;
   padding: 18px;
   background-color: var(--primary-green);
@@ -175,7 +184,6 @@
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  z-index: 100;
   box-shadow: var(--shadow-md);
   width: calc(100% - 40px);
 }

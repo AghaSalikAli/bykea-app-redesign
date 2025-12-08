@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './ReorderStops.css';
 
 function ReorderStops() {
@@ -59,11 +60,17 @@ function ReorderStops() {
     <div className="reorder-stops-container">
       {/* Header */}
       <div className="reorder-header">
-        <button className="back-button" onClick={handleBack}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.back')}
+          className="back-button"
+          onClick={handleBack}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
         <h1 className="reorder-title">{t('reorderStops.title')}</h1>
       </div>
 
@@ -113,16 +120,18 @@ function ReorderStops() {
               {/* Swap Icon Between Stops */}
               {index < allStops.length - 1 && (
                 <div className="swap-icon-container">
-                  <button 
+                  <ReadAloudWrapper
+                    as="button"
+                    text="Swap stops"
                     className="swap-icon-btn"
                     onClick={() => handleSwap(index)}
-                    aria-label="Swap stops"
+                    onHover={true}
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path d="M7 16V4M7 4L3 8M7 4L11 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M17 8V20M17 20L21 16M17 20L13 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </button>
+                  </ReadAloudWrapper>
                 </div>
               )}
             </React.Fragment>
@@ -132,9 +141,15 @@ function ReorderStops() {
 
       {/* Footer */}
       <div className="reorder-footer">
-        <button className="done-btn" onClick={handleConfirm}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('reorderStops.done')}
+          className="done-btn"
+          onClick={handleConfirm}
+          onHover={true}
+        >
           {t('reorderStops.done')}
-        </button>
+        </ReadAloudWrapper>
       </div>
     </div>
   );

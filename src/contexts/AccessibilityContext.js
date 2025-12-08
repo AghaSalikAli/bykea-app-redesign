@@ -19,6 +19,16 @@ export const AccessibilityProvider = ({ children }) => {
     return localStorage.getItem('bykea-colorblind-mode') || 'normal';
   });
 
+  const [readAloudEnabled, setReadAloudEnabled] = useState(() => {
+    const saved = localStorage.getItem('bykea-read-aloud');
+    return saved ? JSON.parse(saved) : false;
+  });
+  
+  const [readAloudSpeed, setReadAloudSpeed] = useState(() => {
+    const saved = localStorage.getItem('bykea-read-aloud-speed');
+    return saved ? parseFloat(saved) : 1.0;
+  });
+
   // Remove this useEffect as language context will handle lang and dir attributes
 
   useEffect(() => {
@@ -30,6 +40,14 @@ export const AccessibilityProvider = ({ children }) => {
     localStorage.setItem('bykea-colorblind-mode', colorBlindMode);
     document.documentElement.setAttribute('data-colorblind-mode', colorBlindMode);
   }, [colorBlindMode]);
+
+  useEffect(() => {
+    localStorage.setItem('bykea-read-aloud', JSON.stringify(readAloudEnabled));
+  }, [readAloudEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('bykea-read-aloud-speed', readAloudSpeed.toString());
+  }, [readAloudSpeed]);
 
   const increaseFontSize = () => {
     setFontSize(prev => {
@@ -53,12 +71,42 @@ export const AccessibilityProvider = ({ children }) => {
     setColorBlindMode(mode);
   };
 
+  // Function to speak text
+  const speak = (text, options = {}) => {
+    if (!readAloudEnabled || !text) return;
+    
+    // Cancel any ongoing speech
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = options.rate || readAloudSpeed;
+      utterance.pitch = options.pitch || 1;
+      utterance.volume = options.volume || 1;
+      utterance.lang = options.lang || 'en-US';
+      
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const stopSpeaking = () => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  };
+
   const value = {
     fontSize,
     increaseFontSize,
     decreaseFontSize,
     colorBlindMode,
-    setColorBlindModeValue
+    setColorBlindModeValue,
+    readAloudEnabled,
+    setReadAloudEnabled,
+    readAloudSpeed,
+    setReadAloudSpeed,
+    speak,
+    stopSpeaking,
   };
 
   return (

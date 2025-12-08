@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './Offers.css';
 
 const Offers = () => {
@@ -71,11 +72,17 @@ const Offers = () => {
     <div className="offers-container">
       {/* Header */}
       <div className="offers-header">
-        <button className="offers-back-btn" onClick={() => navigate('/')}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.back')}
+          className="offers-back-btn"
+          onClick={() => navigate('/')}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
         <h1 className="offers-title">{t('offers.title')}</h1>
       </div>
 

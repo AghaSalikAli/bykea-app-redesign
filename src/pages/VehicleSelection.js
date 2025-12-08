@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './VehicleSelection.css';
 
 const VehicleSelection = () => {
@@ -84,11 +85,17 @@ const VehicleSelection = () => {
     <div className="vehicle-selection-container">
       {/* Header */}
       <div className="vehicle-header">
-        <button className="vehicle-back-button" onClick={handleBack}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.back')}
+          className="vehicle-back-button"
+          onClick={handleBack}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
         <h1 className="vehicle-header-title">{t('vehicle.title')}</h1>
       </div>
 
@@ -99,10 +106,12 @@ const VehicleSelection = () => {
         {/* Vehicle Grid */}
         <div className="vehicle-grid">
           {vehicles.map((vehicle) => (
-            <div
+            <ReadAloudWrapper
               key={vehicle.id}
+              text={`${vehicle.name}, ${t('reviewTrip.estimatedPrice')} ${calculatePrice(vehicle)} ${t('common.rs')}`}
               className={`vehicle-card ${selectedVehicle?.id === vehicle.id ? 'selected' : ''}`}
               onClick={() => handleVehicleSelect(vehicle)}
+              onHover={true}
             >
               <div className="vehicle-icon-wrapper">
                 <img 
@@ -120,19 +129,23 @@ const VehicleSelection = () => {
                 </div>
               </div>
               <span className="vehicle-name">{vehicle.name}</span>
-            </div>
+              <span className="vehicle-price">{t('common.rs')} {calculatePrice(vehicle)}</span>
+            </ReadAloudWrapper>
           ))}
         </div>
       </div>
 
       {/* Confirm Button */}
-      <button 
-        className="vehicle-confirm-button" 
+      <ReadAloudWrapper
+        as="button"
+        text={t('vehicle.confirm')}
+        className="vehicle-confirm-button"
         onClick={handleConfirm}
         disabled={!selectedVehicle}
+        onHover={true}
       >
         {t('vehicle.confirm')}
-      </button>
+      </ReadAloudWrapper>
     </div>
   );
 };

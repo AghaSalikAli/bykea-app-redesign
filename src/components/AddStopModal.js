@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { useTranslation } from '../contexts/LanguageContext';
+import { useReadAloud } from '../hooks/useReadAloud';
+import ReadAloudWrapper from './ReadAloudWrapper';
 import 'leaflet/dist/leaflet.css';
 import './AddStopModal.css';
 
@@ -32,6 +34,7 @@ function MapController({ onLocationChange, initialCenter }) {
 
 function AddStopModal({ isOpen, onClose, onStopAdded }) {
   const { t } = useTranslation();
+  const { readText } = useReadAloud();
 
   const [mapCenter, setMapCenter] = useState([24.8607, 67.0011]); // Karachi
   const [currentStop, setCurrentStop] = useState({
@@ -39,6 +42,13 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
     address: 'Loading...',
     name: ''
   });
+
+  // Announce modal title when it opens
+  useEffect(() => {
+    if (isOpen) {
+      readText(t('addStop.title'));
+    }
+  }, [isOpen]);
 
   // Recent places for stops
   const recentPlaces = [
@@ -146,12 +156,18 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
         <div className="add-stop-handle-bar"></div>
         
         {/* Close button */}
-        <button className="add-stop-close-btn" onClick={handleBack} aria-label="Close">
+        <ReadAloudWrapper
+          as="button"
+          text="Close"
+          className="add-stop-close-btn"
+          onClick={handleBack}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
 
         {/* Header */}
         <h2 className="add-stop-modal-title">{t('addStop.title')}</h2>
@@ -199,10 +215,13 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
           <h3 className="add-stop-recent-places-title">{t('location.recentPlaces')}</h3>
           <div className="add-stop-recent-places-list">
             {recentPlaces.map((place) => (
-              <button
+              <ReadAloudWrapper
                 key={place.id}
+                as="button"
+                text={`${place.name}, ${place.distance} away`}
                 className="add-stop-recent-place-item"
                 onClick={() => handlePlaceSelect(place)}
+                onHover={true}
               >
                 <div className="add-stop-place-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -215,15 +234,21 @@ function AddStopModal({ isOpen, onClose, onStopAdded }) {
                   <p className="add-stop-place-address">{place.address}</p>
                 </div>
                 <span className="add-stop-place-distance">{place.distance}</span>
-              </button>
+              </ReadAloudWrapper>
             ))}
           </div>
         </div>
 
         {/* Add Stop Button */}
-        <button className="add-stop-confirm-button" onClick={handleAddStop}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('editRide.addStop')}
+          className="add-stop-confirm-button"
+          onClick={handleAddStop}
+          onHover={true}
+        >
           {t('editRide.addStop')}
-        </button>
+        </ReadAloudWrapper>
       </div>
     </>
   );

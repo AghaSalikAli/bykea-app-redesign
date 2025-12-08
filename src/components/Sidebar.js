@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from './ReadAloudWrapper';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -107,11 +108,14 @@ const Sidebar = ({ isOpen, onClose }) => {
         
         <div className="sidebar-menu">
           {menuItems.map((item) => (
-            <button
+            <ReadAloudWrapper
               key={item.id}
+              as="button"
+              text={t(item.labelKey)}
               className="menu-item"
               onClick={() => handleItemClick(item.route)}
               aria-label={t(item.labelKey)}
+              onHover={true}
             >
               <span className="menu-icon" aria-hidden="true">
                 {getIcon(item.icon)}
@@ -122,7 +126,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                   <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </span>
-            </button>
+            </ReadAloudWrapper>
           ))}
         </div>
         

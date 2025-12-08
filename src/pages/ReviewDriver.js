@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './ReviewDriver.css';
 
 const ReviewDriver = () => {
@@ -53,11 +54,17 @@ const ReviewDriver = () => {
     <div className="review-driver-container">
       {/* Header */}
       <div className="review-driver-header">
-        <button className="review-driver-back-btn" onClick={handleBack}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.back')}
+          className="review-driver-back-btn"
+          onClick={handleBack}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
         <h1 className="review-driver-title">{t('reviewDriver.title')}</h1>
       </div>
 
@@ -132,9 +139,15 @@ const ReviewDriver = () => {
       </div>
 
       {/* Confirm Button */}
-      <button className="confirm-ride-btn" onClick={handleConfirmRide}>
+      <ReadAloudWrapper
+        as="button"
+        text={t('reviewDriver.confirmRide')}
+        className="confirm-ride-btn"
+        onClick={handleConfirmRide}
+        onHover={true}
+      >
         {t('reviewDriver.confirmRide')}
-      </button>
+      </ReadAloudWrapper>
     </div>
   );
 };

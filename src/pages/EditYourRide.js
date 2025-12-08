@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import { useReadAloud } from '../hooks/useReadAloud';
 import SelectLocationModal from '../components/SelectLocationModal';
 import AddStopModal from '../components/AddStopModal';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './EditYourRide.css';
 
 function EditYourRide() {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const { readText } = useReadAloud();
   const { pickup, dropoff, stops = [], distance, duration } = location.state || {};
   
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -17,6 +20,11 @@ function EditYourRide() {
   const [editingPickup, setEditingPickup] = useState(pickup);
   const [editingDropoff, setEditingDropoff] = useState(dropoff);
   const [editingStops, setEditingStops] = useState(stops);
+
+  // Announce page title on mount
+  useEffect(() => {
+    readText(t('editRide.title'));
+  }, []);
 
   const handleSwap = (index) => {
     if (index === -1) {
@@ -75,11 +83,17 @@ function EditYourRide() {
     <div className="edit-your-ride-container">
       {/* Header */}
       <div className="edit-ride-header">
-        <button className="back-button" onClick={handleBack}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('common.back')}
+          className="back-button"
+          onClick={handleBack}
+          onHover={true}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </ReadAloudWrapper>
         <h1 className="edit-ride-title">{t('editRide.title')}</h1>
       </div>
 
@@ -107,28 +121,32 @@ function EditYourRide() {
 
         {/* Actions between Pickup and first Stop/Dropoff */}
         <div className="actions-between-stops">
-          <button 
+          <ReadAloudWrapper
+            as="button"
+            text={t('editRide.addStop')}
             className="add-stop-btn-inline"
             onClick={() => handleAddStopAtPosition(0)}
-            aria-label={t('editRide.addStop')}
+            onHover={true}
+            readOnClick={true}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             <span>{t('editRide.addStop')}</span>
-          </button>
+          </ReadAloudWrapper>
           {editingStops.length > 0 && (
-            <button 
+            <ReadAloudWrapper
+              as="button"
+              text="Swap pickup with first stop"
               className="swap-icon-btn"
               onClick={() => handleSwap(-1)}
-              aria-label="Swap with next"
-              title="Swap pickup with first stop"
+              onHover={true}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M7 16V4M7 4L3 8M7 4L11 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M17 8V20M17 20L21 16M17 20L13 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </button>
+            </ReadAloudWrapper>
           )}
         </div>
 
@@ -144,39 +162,46 @@ function EditYourRide() {
                 <span className="stop-label">{t('editRide.addStop')} {index + 1}</span>
                 <span className="stop-name">{stop.name}</span>
               </div>
-              <button 
+              <ReadAloudWrapper
+                as="button"
+                text={`Delete stop ${index + 1}`}
                 className="delete-stop-btn"
                 onClick={() => handleDeleteStop(index)}
-                aria-label={t('editRide.addStop')}
+                onHover={true}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
-              </button>
+              </ReadAloudWrapper>
             </div>
 
             {/* Actions between this stop and next */}
             <div className="actions-between-stops">
-              <button 
+              <ReadAloudWrapper
+                as="button"
+                text={t('editRide.addStop')}
                 className="add-stop-btn-inline"
                 onClick={() => handleAddStopAtPosition(index + 1)}
-                aria-label={`Add stop after stop ${index + 1}`}
+                onHover={true}
+                readOnClick={true}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
                 <span>{t('editRide.addStop')}</span>
-              </button>
-              <button 
+              </ReadAloudWrapper>
+              <ReadAloudWrapper
+                as="button"
+                text="Swap stops"
                 className="swap-icon-btn"
                 onClick={() => handleSwap(index)}
-                aria-label="Swap with next"
+                onHover={true}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M7 16V4M7 4L3 8M7 4L11 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M17 8V20M17 20L21 16M17 20L13 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </button>
+              </ReadAloudWrapper>
             </div>
           </React.Fragment>
         ))}
@@ -197,9 +222,15 @@ function EditYourRide() {
 
       {/* Done Button */}
       <div className="edit-footer">
-        <button className="done-btn" onClick={handleDone}>
+        <ReadAloudWrapper
+          as="button"
+          text={t('editRide.done')}
+          className="done-btn"
+          onClick={handleDone}
+          onHover={true}
+        >
           {t('editRide.done')}
-        </button>
+        </ReadAloudWrapper>
       </div>
 
       {/* Add Stop Modal */}

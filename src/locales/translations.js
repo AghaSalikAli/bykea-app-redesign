@@ -31,6 +31,13 @@ export const translations = {
     'settings.protanopia': 'Protanopia (Red-blind)',
     'settings.deuteranopia': 'Deuteranopia (Green-blind)',
     'settings.tritanopia': 'Tritanopia (Blue-blind)',
+    'settings.readAloud': 'Read Aloud',
+    'settings.enableReadAloud': 'Enable Read Aloud',
+    'settings.readAloudSpeed': 'Reading Speed',
+    'settings.testReadAloud': 'Test Read Aloud',
+    'settings.readAloudTest': 'This is a test of the read aloud feature. You can adjust the speed to your preference.',
+    'settings.readAloudDesc': 'Hear text read aloud when you hover over or tap elements',
+    'settings.readAloudEnglishOnly': 'Read Aloud currently supports English only. Switch to English to use this feature.',
     
     // Review Trip
     'reviewTrip.title': 'Review Your Trip',
@@ -112,6 +119,19 @@ export const translations = {
     'trackRide.driverComing': 'Your driver is coming in 3:35',
     'trackRide.rideInProgress': 'Your ride is in progress. Enjoy your trip!',
     'trackRide.reviews': 'Reviews',
+    'trackRide.cancelRide': 'Cancel Ride',
+    'trackRide.confirmCancel': 'Are you sure you want to cancel this ride?',
+    
+    // Review Driver Page
+    'reviewDriver.title': 'Rate Your Ride',
+    'reviewDriver.subtitle': 'How was your experience?',
+    'reviewDriver.rateDriver': 'Rate your driver',
+    'reviewDriver.comments': 'Add comments (optional)',
+    'reviewDriver.commentsPlaceholder': 'Share your feedback...',
+    'reviewDriver.submit': 'Submit Review',
+    'reviewDriver.skip': 'Skip',
+    'reviewDriver.thankYou': 'Thank you for your feedback!',
+    'reviewDriver.submitting': 'Submitting...',
     
     // Common
     'common.back': 'Back',
@@ -121,6 +141,8 @@ export const translations = {
     'common.offers': 'Offers',
     'common.shops': 'Shops',
     'common.rs': 'Rs.',
+    'common.languageSwitched': 'Language switched',
+    'common.menu': 'Menu',
     
     // Offers Page
     'offers.title': 'Special Offers',
@@ -314,6 +336,13 @@ export const translations = {
     'settings.protanopia': 'پروٹانوپیا (سرخ اندھا)',
     'settings.deuteranopia': 'ڈیوٹرانوپیا (سبز اندھا)',
     'settings.tritanopia': 'ٹریٹانوپیا (نیلا اندھا)',
+    'settings.readAloud': 'بلند آواز میں پڑھیں',
+    'settings.enableReadAloud': 'بلند آواز میں پڑھنا فعال کریں',
+    'settings.readAloudSpeed': 'پڑھنے کی رفتار',
+    'settings.testReadAloud': 'بلند آواز میں پڑھنے کا ٹیسٹ',
+    'settings.readAloudTest': 'یہ بلند آواز میں پڑھنے کی خصوصیت کا ٹیسٹ ہے۔ آپ اپنی پسند کے مطابق رفتار کو ایڈجسٹ کر سکتے ہیں۔',
+    'settings.readAloudDesc': 'جب آپ عناصر پر منڈلاتے یا ٹیپ کرتے ہیں تو متن بلند آواز میں سنیں',
+    'settings.readAloudEnglishOnly': 'بلند آواز میں پڑھنا فی الوقت صرف انگریزی میں دستیاب ہے۔ اس فیچر کو استعمال کرنے کے لیے انگریزی میں تبدیل کریں۔',
     
     // Review Trip
     'reviewTrip.title': 'اپنے سفر کا جائزہ لیں',
@@ -395,6 +424,19 @@ export const translations = {
     'trackRide.driverComing': 'آپ کا ڈرائیور 3:35 میں پہنچ رہا ہے',
     'trackRide.rideInProgress': 'آپ کی سواری جاری ہے۔ اپنی سواری سے لطف اندوز ہوں!',
     'trackRide.reviews': 'جائزے',
+    'trackRide.cancelRide': 'سواری منسوخ کریں',
+    'trackRide.confirmCancel': 'کیا آپ واقعی اس سواری کو منسوخ کرنا چاہتے ہیں؟',
+    
+    // Review Driver Page
+    'reviewDriver.title': 'اپنی سواری کی درجہ بندی کریں',
+    'reviewDriver.subtitle': 'آپ کا تجربہ کیسا رہا؟',
+    'reviewDriver.rateDriver': 'اپنے ڈرائیور کی درجہ بندی کریں',
+    'reviewDriver.comments': 'تبصرے شامل کریں (اختیاری)',
+    'reviewDriver.commentsPlaceholder': 'اپنی رائے شیئر کریں...',
+    'reviewDriver.submit': 'جائزہ جمع کرائیں',
+    'reviewDriver.skip': 'چھوڑ دیں',
+    'reviewDriver.thankYou': 'آپ کی رائے کے لیے شکریہ!',
+    'reviewDriver.submitting': 'جمع ہو رہا ہے...',
     
     // Common
     'common.back': 'واپس',
@@ -404,6 +446,8 @@ export const translations = {
     'common.offers': 'پیشکشیں',
     'common.shops': 'دکانیں',
     'common.rs': 'روپے',
+    'common.languageSwitched': 'زبان تبدیل ہوگئی',
+    'common.menu': 'مینو',
     
     // Offers Page
     'offers.title': 'خصوصی پیشکشیں',

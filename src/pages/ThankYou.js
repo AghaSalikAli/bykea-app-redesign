@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from '../contexts/LanguageContext';
+import ReadAloudWrapper from '../components/ReadAloudWrapper';
 import './ThankYou.css';
 
 const ThankYou = () => {
@@ -80,9 +81,15 @@ const ThankYou = () => {
       </div>
 
       {/* Track Ride Button */}
-      <button className="track-ride-btn" onClick={handleTrackRide}>
+      <ReadAloudWrapper
+        as="button"
+        text={t('thankYou.trackRide')}
+        className="track-ride-btn"
+        onClick={handleTrackRide}
+        onHover={true}
+      >
         {t('thankYou.trackRide')}
-      </button>
+      </ReadAloudWrapper>
     </div>
   );
 };

@@ -11,9 +11,21 @@ const Settings = () => {
     increaseFontSize, 
     decreaseFontSize,
     colorBlindMode,
-    setColorBlindModeValue
+    setColorBlindModeValue,
+    readAloudEnabled,
+    setReadAloudEnabled,
+    readAloudSpeed,
+    setReadAloudSpeed,
+    speak
   } = useAccessibility();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+
+  const testReadAloud = () => {
+    // Only works in English
+    if (language === 'en') {
+      speak(t('settings.readAloudTest'), { lang: 'en-US' });
+    }
+  };
 
   const fontSizes = [
     { value: 'small', label: t('settings.small') },
@@ -78,6 +90,78 @@ const Settings = () => {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="settings-section">
+        <h3>{t('settings.readAloud')}</h3>
+        <p className="settings-description">{t('settings.readAloudDesc')}</p>
+        <div className="setting-item">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={readAloudEnabled}
+              onChange={(e) => setReadAloudEnabled(e.target.checked)}
+              aria-label={t('settings.enableReadAloud')}
+            />
+            <span>{t('settings.enableReadAloud')}</span>
+          </label>
+        </div>
+        
+        {readAloudEnabled && (
+          <>
+            {language === 'ur' && (
+              <div className="read-aloud-note" style={{
+                padding: '12px',
+                backgroundColor: '#fff3cd',
+                borderRadius: '8px',
+                marginBottom: '16px',
+                border: '1px solid #ffc107',
+                fontSize: 'calc(var(--font-size-base) * 0.95)'
+              }}>
+                <p style={{ margin: 0, lineHeight: 1.5 }}>
+                  ⚠️ {t('settings.readAloudEnglishOnly') || 'Read Aloud currently supports English only. Switch to English to use this feature.'}
+                </p>
+              </div>
+            )}
+            
+            <div className="setting-item">
+              <label className="speed-label">
+                {t('settings.readAloudSpeed')}
+                <span className="speed-value">{readAloudSpeed.toFixed(1)}x</span>
+              </label>
+              <input
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={readAloudSpeed}
+                onChange={(e) => setReadAloudSpeed(parseFloat(e.target.value))}
+                className="speed-slider"
+                aria-label={t('settings.readAloudSpeed')}
+                disabled={language === 'ur'}
+                style={language === 'ur' ? { opacity: 0.5 } : {}}
+              />
+              <div className="speed-labels">
+                <span>0.5x</span>
+                <span>1.0x</span>
+                <span>1.5x</span>
+                <span>2.0x</span>
+              </div>
+            </div>
+            
+            <button 
+              onClick={testReadAloud} 
+              className="test-button secondary-button"
+              disabled={language === 'ur'}
+              style={language === 'ur' ? { opacity: 0.5, cursor: 'not-allowed' } : {}}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M15.54 8.46C16.4774 9.39764 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {t('settings.testReadAloud')}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
